@@ -8,10 +8,11 @@
 
     <!-- Lien CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
     <!-- <link rel="stylesheet" type="text/css" href="/css/bootstrap-4.5.3.min.css"> -->
 </head>
 
-<body class="container w-100 mw-100">
+<body id="home" class="container w-100 mw-100">
     <section class="row">
         <article class="col bg-primary">
             <h2>Todo :</h2>
