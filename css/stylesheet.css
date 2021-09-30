@@ -1,7 +1,41 @@
-body {
-  height: 40rem;
+/* Utilisation de la méthode "mobile first" qui consiste à d'abord effectuer le design du format 
+mobile pour ensuite adapter se format au écran plus grand*/
+
+/******************************************************************************/
+/********************************** Global ************************************/
+/******************************************************************************/
+
+/********************************** Header ************************************/
+
+body > header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 30px 10px 20px; /* Changer les valeurs en rem/em */
+  margin-bottom: 1rem;
+  z-index: 1;
+  box-shadow: 1px 1px 3px rgb(0 0 0 / 10%); /* revoir pour mettre une meilleur valeur */
+  background-color: #fff; /* revoir pour mettre une meilleur valeur */
+  height: 10rem;
 }
 
-#home section {
-  height: 25%;
+body > header ul {
+  list-style: none;
 }
+
+body > header a {
+  text-decoration: none;
+  color: black;
+}
+
+body > header a:hover {
+  /* Mettre autres choses*/
+  color: red;
+}
+
+/********************************** Footer ************************************/
+
+/******************************************************************************/
+/********************************** Index *************************************/
+/******************************************************************************/
