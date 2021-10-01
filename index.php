@@ -19,7 +19,8 @@
 
         <article>
             <h2>Anime/Manga/Weebtoon</h2>
-            <p>un peu comme myanimelist (regarder api myanimelist "https://myanimelist.net/apiconfig/references/api/v2#tag/anime")</p>
+            <p>un peu comme myanimelist (regarder api myanimelist)</p>
+            <!-- "https://myanimelist.net/apiconfig/references/api/v2#tag/anime" -->
         </article>
 
         <article>

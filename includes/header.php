@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
     <meta charset=“UTF-8”>
@@ -12,15 +12,20 @@
 
 <body>
     <header>
-        <nav>
+        <nav role="navigation">
+            <div>
+                <!-- Icon pour dépliyer le menu -->
+                <a title="Accueil" href="index.php">Accueil</a>
+            </div>
+
             <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">Todo</a></li>
-                <li><a href="#">Musculation</a></li>
-                <li><a href="#">Jeux vidéos</a></li>
-                <li><a href="#">Animes</a></li>
-                <li><a href="#">Finances</a></li>
-                <li><a href="#">Autres</a></li>
+
+                <li><a title="" href="#">Todo</a></li>
+                <li><a title="" href="#">Musculation</a></li>
+                <li><a title="" href="#">Jeux vidéos</a></li>
+                <li><a title="" href="#">Animes</a></li>
+                <li><a title="" href="#">Finances</a></li>
+                <li><a title="" href="#">Autres</a></li>
             </ul>
         </nav>
     </header>
