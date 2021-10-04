@@ -13,19 +13,21 @@
 <body>
     <header>
         <nav role="navigation">
-            <div>
-                <!-- Icon pour dépliyer le menu -->
-                <a title="Accueil" href="index.php">Accueil</a>
+            <!-- Icon "Hamburger" -->
+            <div id="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
+            <a title="Page d'accueil" href="index.php">Accueil</a>
 
-            <ul>
-
-                <li><a title="" href="#">Todo</a></li>
-                <li><a title="" href="#">Musculation</a></li>
-                <li><a title="" href="#">Jeux vidéos</a></li>
-                <li><a title="" href="#">Animes</a></li>
-                <li><a title="" href="#">Finances</a></li>
-                <li><a title="" href="#">Autres</a></li>
+            <ul id="menu">
+                <li><a title="Page de listes de tâches" href="#">Todo</a></li>
+                <li><a title="Page sur la musculation" href="#">Musculation</a></li>
+                <li><a title="Page sur les jeux vidéos" href="#">Jeux vidéos</a></li>
+                <li><a title="Page sur les animes/manga/weebtoon" href="#">Animes</a></li>
+                <li><a title="Page sur l'argent" href="#">Finances</a></li>
+                <li><a title="Autre page" href="#">Autres</a></li>
             </ul>
         </nav>
     </header>

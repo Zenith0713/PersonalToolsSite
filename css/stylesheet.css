@@ -7,6 +7,8 @@ mobile pour ensuite adapter se format au écran plus grand*/
 
 body {
   font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .display {
@@ -20,7 +22,7 @@ body {
 /********************************** Header ************************************/
 
 body > header {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   right: 0;
@@ -28,28 +30,112 @@ body > header {
   margin-bottom: 1rem;
   z-index: 1;
   box-shadow: 0.1rem 0.1rem 0.2rem grey; /* revoir pour mettre une meilleur valeur */
-  background-color: lightgrey; /* revoir pour mettre une meilleur valeur. Noir clair avec un texte en blanc, regarder ex sur internet */
+  background-color: #1e1e23; /* revoir pour mettre une meilleur valeur. Noir clair avec un texte en blanc, regarder ex sur internet */
 }
 
 body > header ul {
   display: flex;
   flex-direction: column;
   list-style: none;
-  /* margin: 0; */
+  margin: 2rem 0 1rem;
   padding: 0;
 }
 
 body > header li {
-  line-height: 2rem;
+  line-height: 2.5rem;
   text-align: center;
 }
 
 body > header a {
-  display: block;
   text-decoration: none;
-  color: black;
+  color: white;
   font-size: 1.5rem;
-  /* font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; */
+}
+
+body > header ul a {
+  display: block;
+}
+
+body > header nav > a {
+  margin-left: 1rem;
+}
+
+/* Hamburger icon */
+
+body > header #hamburger-icon {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.2rem;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+body > header #hamburger-icon span {
+  position: absolute;
+  height: 0.2rem;
+  width: 100%;
+  background: white;
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: 0.25s ease-in-out;
+  -moz-transition: 0.25s ease-in-out;
+  -o-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+}
+
+body > header #hamburger-icon span:nth-child(1) {
+  top: 0px;
+}
+
+body > header #hamburger-icon span:nth-child(2) {
+  top: 0.5rem;
+}
+
+body > header #hamburger-icon span:nth-child(3) {
+  top: 1rem;
+}
+
+body > header #hamburger-icon.open span:nth-child(1) {
+  top: 0.5rem;
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -o-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+body > header #hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+  left: -3rem;
+}
+
+body > header #hamburger-icon.open span:nth-child(3) {
+  top: 0.5rem;
+  -webkit-transform: rotate(-135deg);
+  -moz-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+
+/* Menu */
+
+body > header #menu {
+  display: none;
+}
+
+body > header #menu.open {
+  display: block;
 }
 
 /********************************** Footer ************************************/
