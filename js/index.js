@@ -2,11 +2,10 @@
 "use strict";
 
 const hamburgerIcon = document.getElementById("hamburger-icon");
-const navMenu = document.getElementById("menu");
+const navMenu = document.querySelector("header > nav");
 
 function setHamburgerIcon() {
   hamburgerIcon.addEventListener("click", () => {
-    hamburgerIcon.classList.toggle("open");
     navMenu.classList.toggle("open");
   });
 }

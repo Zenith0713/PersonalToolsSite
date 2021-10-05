@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-    <meta charset=“UTF-8”>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes outils</title>
 
@@ -12,7 +12,7 @@
 
 <body>
     <header>
-        <nav role="navigation">
+        <nav>
             <!-- Icon "Hamburger" -->
             <div id="hamburger-icon">
                 <span></span>
