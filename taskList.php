@@ -46,10 +46,10 @@
 
                 <!-- Liste des éléments -->
                 <ul>
-                    <li><input id="task1" name="task1" type="checkbox" value="1" /><label>Mon premier élément</label></li> <!-- Ne pas mettre label -> contenu modifiable -->
-                    <li><input id="task2" name="task2" type="checkbox" value="1" /><label>Mon deuxième élément</label></li> <!-- Icon permettant de supprimer -->
-                    <li><input id="task3" name="task3" type="checkbox" value="1" /><label>Mon troisième élément</label></li>
-                    <li><input id="addTask" name="addTask" type="checkbox" value="1" /><label>Ajouter un élément</label></li> <!-- Choisir cette méthode ou cette du bouton pour add -->
+                    <li><input name="task1" type="checkbox" value="1" /><label>Mon premier élément</label></li> <!-- Ne pas mettre label -> contenu modifiable -->
+                    <li><input name="task2" type="checkbox" value="1" /><label>Mon deuxième élément</label></li> <!-- Icon permettant de supprimer -->
+                    <li><input name="task3" type="checkbox" value="1" /><label>Mon troisième élément</label></li>
+                    <li><input name="addTask" type="checkbox" value="1" /><label>Ajouter un élément</label></li> <!-- Choisir cette méthode ou cette du bouton pour add -->
                 </ul>
 
                 <button type="button">Ajouter un élément</button>
