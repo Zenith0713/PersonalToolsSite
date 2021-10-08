@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : jeu. 07 oct. 2021 à 14:38
+-- Généré le : ven. 08 oct. 2021 à 14:10
 -- Version du serveur :  10.4.13-MariaDB
 -- Version de PHP : 7.4.9
 
@@ -35,7 +35,14 @@ CREATE TABLE IF NOT EXISTS `task` (
   `taskCompleted` tinyint(1) NOT NULL,
   PRIMARY KEY (`taskId`),
   KEY `cateogryId` (`taskCategory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `task`
+--
+
+INSERT INTO `task` (`taskId`, `taskName`, `taskCategory`, `taskCompleted`) VALUES
+(1, 'Ménage', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -73,7 +80,15 @@ CREATE TABLE IF NOT EXISTS `taskelements` (
   `elementTask` int(11) NOT NULL,
   PRIMARY KEY (`elementId`),
   KEY `elementTask` (`elementTask`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `taskelements`
+--
+
+INSERT INTO `taskelements` (`elementId`, `elementName`, `elementTask`) VALUES
+(1, 'Passer l\'aspirateur', 1),
+(2, 'Nettoyer la vaisselle', 1);
 
 --
 -- Contraintes pour les tables déchargées

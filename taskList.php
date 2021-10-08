@@ -20,16 +20,27 @@
 
     <section>
         <!-- Choisir nom du groupe et catégories -->
-        <button>Ajouter une tâche</button>
+        <form name="addTask">
+            <div>
+                <div class="hidden">Ce nom est déjà utilisé !</div>
+                <label>Nom de la tâche :</label>
+                <input name="" type="text" placeholder="Nouvelle tâche" />
+            </div>
+
+            <button id="addTask" type="submit">Ajouter une tâche</button>
+        </form>
+
 
         <!-- Fonction de trie par catégories, recherches de nom de tâches, etc... -->
+
+        <!-- Gérer les catégories (ajouter, supprimer, modifier)... -->
     </section>
 
     <!-- Ici on peut retrouver toutes les tâches -->
     <section>
         <!-- Un groupe de tâche -->
         <article>
-            <form method="POST" action="#">
+            <form method="POST" name="" action="#">
                 <h4>Nom de la tâche</h4>
 
                 <!-- Permettant de supprimer la tâche -->
@@ -59,10 +70,8 @@
             </form>
         </article>
     </section>
-
-
 </main>
 
 <!-- All Script -->
-<script src="js/index.js"></script>
+<script src="js/taskList.js"></script>
 <?php include("includes/footer.php"); ?>
