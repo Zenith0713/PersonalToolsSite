@@ -1,8 +1,6 @@
 <?php include("includes/header.php"); ?>
 
 <main id="taskList">
-    <h2>Liste de tâches</h2>
-
     <!-- Tâches effectués ou non -->
     <!-- Ajouter/modifier/supprimer une tâche, attribuer un nom à cette tâche -->
     <!-- Ajouter/modifier/supprimer une catégorie, faire une catégorie neutre/aucune -->
@@ -20,27 +18,40 @@
 
     <section>
         <!-- Choisir nom du groupe et catégories -->
-        <form name="addTask">
-            <div>
-                <div class="hidden">Ce nom est déjà utilisé !</div>
-                <label>Nom de la tâche :</label>
-                <input name="" type="text" placeholder="Nouvelle tâche" />
-            </div>
+        <h2>Gestion</h2>
 
-            <button id="addTask" type="submit">Ajouter une tâche</button>
-        </form>
+        <article>
+            <h4>Tâche</h4>
 
+            <form name="addTask">
+                <div>
+                    <div id="emptyError" class="hidden inputError">Veuillez remplir le champ</div>
+                    <div id="alreadyTakeError" class="hidden inputError">Ce nom est déjà utilisé !</div>
+                    <label>Nom de la tâche :</label>
+                    <input name="newTask" type="text" placeholder="Nouvelle tâche" />
+                </div>
 
-        <!-- Fonction de trie par catégories, recherches de nom de tâches, etc... -->
+                <button id="addTask" type="submit">Ajouter une tâche</button>
+            </form>
+        </article>
 
-        <!-- Gérer les catégories (ajouter, supprimer, modifier)... -->
+        <article>
+            <h4>Recherche</h4>
+            <!-- Fonction de trie par catégories, recherches de nom de tâches, etc... -->
+        </article>
+
+        <article>
+            <h4>Catégories</h4>
+            <!-- Gérer les catégories (ajouter, supprimer, modifier)... -->
+        </article>
     </section>
 
     <!-- Ici on peut retrouver toutes les tâches -->
     <section>
+        <h2>Tâches</h2>
         <!-- Un groupe de tâche -->
         <article>
-            <form method="POST" name="" action="#">
+            <form method="POST" name="taskName" action="#">
                 <h4>Nom de la tâche</h4>
 
                 <!-- Permettant de supprimer la tâche -->
