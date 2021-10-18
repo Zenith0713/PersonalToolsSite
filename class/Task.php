@@ -1,8 +1,8 @@
 <?php
 
-require($_SERVER['DOCUMENT_ROOT'] . "/PersonalToolsSite/app/autoloader.php");
+require($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
 
-
+// Classe permettant 
 class Task
 {
     private Database $_moDatabase;
@@ -13,7 +13,7 @@ class Task
     }
 
     // Méthode permettant d'ajouter une tâche
-    public function add(String $psTaskName): bool
+    public function insert(String $psTaskName): bool
     {
         $aAllTask = $this->selectAll();
 
@@ -29,7 +29,9 @@ class Task
             VALUES(?, 1, 0)
         ";
 
-        $this->_moDatabase->request($sSql, [$psTaskName], false);
+        var_dump("hello");
+
+        // $this->_moDatabase->request($sSql, [$psTaskName], false);
 
         return false;
     }
@@ -46,14 +48,4 @@ class Task
 
         return $aAllTask;
     }
-
-
-    // Fonction de récupération de catégories
-    // Fonction de récupération de tâches
-    // Fonction de récupération d'éléments par rapport à une tâche
-    // Fonction de modification de chaque
-    // Fonction de suppression de chaque
-
 }
-
-// $oTask = new Task();

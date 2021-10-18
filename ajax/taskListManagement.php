@@ -1,8 +1,8 @@
 <?php
 
-require($_SERVER['DOCUMENT_ROOT'] . "/PersonalToolsSite/app/autoloader.php");
+require($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
 
-// Class permettant de gérer différentes action sur les différents éléments (tâches, éléments des tâches, catégories)
+// Classe permettant de gérer différentes actions sur les différents éléments (tâches, éléments des tâches, catégories)
 class TaskListManagement
 {
     private Task $_moTask;
@@ -33,7 +33,7 @@ class TaskListManagement
     {
         switch ($this->_msAction) {
             case "add":
-                $bError = $this->_moTask->add($this->_maPost["taskName"]);
+                $bError = $this->_moTask->insert($this->_maPost["taskName"]);
                 $sAjax = "";
 
                 if ($bError) {

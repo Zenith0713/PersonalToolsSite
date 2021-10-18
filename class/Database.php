@@ -1,5 +1,6 @@
 <?php
 
+// Classe permettant 
 class Database
 {
     private String $_msServerName;
@@ -12,8 +13,8 @@ class Database
     public function __construct()
     {
         $this->_msServerName = "localhost";
-        $this->_miPort = 3306; // Default 
-        // $this->_miPort = 3307; // in work
+        // $this->_miPort = 3306; // Default 
+        $this->_miPort = 3307; // in work
         $this->_msDatabaseName = "mytools";
         $this->_msUsername = "root";
         $this->_msPassword = "";
