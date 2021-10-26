@@ -1,6 +1,6 @@
 <?php
 
-require($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
 
 // Classe permettant de gérer différentes actions sur les différents éléments (tâches, éléments des tâches, catégories)
 class TaskListManagement

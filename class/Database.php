@@ -40,16 +40,19 @@ class Database
         }
     }
 
-    // Méthode permettant
+    // Méthode permettant 
     public function request(String $psSql, array $paArguments = [], Bool $pbReturn = true): array
     {
         try {
+            $aArguments = $this->setUt8Arguments($paArguments);
+
             $oRequestPrepare = $this->_moPdo->prepare($psSql);
-            $oRequestPrepare->execute($paArguments);
+            $oRequestPrepare->execute($aArguments);
             $aDataRequest = [];
 
             if ($pbReturn) {
                 $aDataRequest = $oRequestPrepare->fetchAll(PDO::FETCH_ASSOC);
+                $aDataRequest = $this->contentFilter($aDataRequest);
             }
 
             return $aDataRequest;
@@ -57,6 +60,45 @@ class Database
             // Faire quelques chsoes d'autres de ce message
             var_dump($e->getMessage());
         }
+    }
+
+    // Méthode permettant de convertir chaque argument d'un jeu de caractères (UTF-8) à un autre (CP1252)
+    // pour n'avoir aucun problème de compatibilité
+    private function setUt8Arguments(array $paArguments): array
+    {
+        if (empty($paArguments)) {
+            return $paArguments;
+        } else {
+            $aNewArguments = [];
+
+            for ($i = 0; $i < count($paArguments); $i++) {
+                $aNewArguments[] = iconv("UTF-8", "CP1252", $paArguments[$i]);
+            }
+
+            return $aNewArguments;
+        }
+    }
+
+    // Méthode permettant de filtrer les injections SQL et les caractères spéciaux pour que le données renvoyées 
+    // soient corrects
+    private function contentFilter(array $paContent): array
+    {
+
+        $aRequest = [];
+
+        foreach ($paContent as $key => $value) {
+            $aRequest[$key] = $value;
+
+            foreach ($aRequest[$key] as $key2 => $value2) {
+
+                $newValue = htmlentities($value2, ENT_COMPAT, 'ISO-8859-1', true);
+
+
+                $aRequest[$key][$key2] = mb_convert_encoding($newValue, "UTF-8", "Windows-1252");
+            }
+        }
+
+        return $aRequest;
     }
 }
 

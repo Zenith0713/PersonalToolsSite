@@ -1,6 +1,6 @@
 <?php
 
-require($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
 
 // Classe permettant 
 class Task
@@ -29,9 +29,7 @@ class Task
             VALUES(?, 1, 0)
         ";
 
-        var_dump("hello");
-
-        // $this->_moDatabase->request($sSql, [$psTaskName], false);
+        $this->_moDatabase->request($sSql, [$psTaskName], false);
 
         return false;
     }

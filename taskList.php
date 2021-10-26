@@ -1,4 +1,9 @@
-<?php include("includes/header.php"); ?>
+<?php
+
+include("includes/header.php");
+include("app/showAllTasks.php");
+
+?>
 
 <main id="taskList">
     <!-- Tâches effectués ou non -->
@@ -21,21 +26,6 @@
         <h2>Gestion</h2>
 
         <article>
-            <h4>Tâche</h4>
-
-            <form name="addTask">
-                <div>
-                    <div id="emptyError" class="hidden inputError">Veuillez remplir le champ</div>
-                    <div id="alreadyTakeError" class="hidden inputError">Ce nom est déjà utilisé !</div>
-                    <label>Nom de la tâche :</label>
-                    <input name="newTask" type="text" placeholder="Nouvelle tâche" />
-                </div>
-
-                <button id="addTask" type="submit">Ajouter une tâche</button>
-            </form>
-        </article>
-
-        <article>
             <h4>Recherche</h4>
             <!-- Fonction de trie par catégories, recherches de nom de tâches, etc... -->
         </article>
@@ -44,42 +34,61 @@
             <h4>Catégories</h4>
             <!-- Gérer les catégories (ajouter, supprimer, modifier)... -->
         </article>
+
+        <article>
+            <h4>Tâche</h4>
+
+            <form name="addTask">
+                <div>
+                    <div id="emptyError" class="hidden inputError">Veuillez remplir le champ</div>
+                    <div id="alreadyTakeError" class="hidden inputError">Ce nom est déjà utilisé !</div>
+                    <label for="newTask">Nom de la tâche :</label>
+                    <input id="newTask" name="newTask" type="text" placeholder="Nouvelle tâche" />
+                </div>
+
+                <button type="submit">Ajouter une tâche</button>
+            </form>
+        </article>
     </section>
 
     <!-- Ici on peut retrouver toutes les tâches -->
     <section>
         <h2>Tâches</h2>
         <!-- Un groupe de tâche -->
-        <article>
-            <form method="POST" name="taskName" action="#">
-                <h4>Nom de la tâche</h4>
+        <div>
+            <?php echo $sAllTasksArticles ?>
 
-                <!-- Permettant de supprimer la tâche -->
-                <span>X</span>
+            <!-- <article>
+                <form method="POST" name="taskName" action="#">
+                    <h4>Nom de la tâche</h4>
 
-                <div>
-                    <label>Catégories</label>
-                    <select>
-                        <!-- Couleur catégorie en fond -->
-                        <option value="">Aucune</option>
-                        <option value="">Maison</option>
-                    </select>
-                </div>
+                    -- Permettant de supprimer la tâche --
+                    <span>X</span>
 
-                <!-- Liste des éléments -->
-                <ul>
-                    <li><input name="task1" type="checkbox" value="1" /><label>Mon premier élément</label></li> <!-- Ne pas mettre label -> contenu modifiable -->
-                    <li><input name="task2" type="checkbox" value="1" /><label>Mon deuxième élément</label></li> <!-- Icon permettant de supprimer -->
-                    <li><input name="task3" type="checkbox" value="1" /><label>Mon troisième élément</label></li>
-                    <li><input name="addTask" type="checkbox" value="1" /><label>Ajouter un élément</label></li> <!-- Choisir cette méthode ou cette du bouton pour add -->
-                </ul>
+                    <div>
+                        <label>Catégories</label>
+                        <select>
+                            Couleur catégorie en fond
+                            <option value="">Aucune</option>
+                            <option value="">Maison</option>
+                        </select>
+                    </div>
 
-                <button type="button">Ajouter un élément</button>
+                    -- Liste des éléments --
+                    <ul>
+                        <li><input name="task1" type="checkbox" value="1" /><label>Mon premier élément</label></li> -- Ne pas mettre label -> contenu modifiable --
+                        <li><input name="task2" type="checkbox" value="1" /><label>Mon deuxième élément</label></li> -- Icon permettant de supprimer --
+                        <li><input name="task3" type="checkbox" value="1" /><label>Mon troisième élément</label></li>
+                        <li><input name="addTask" type="checkbox" value="1" /><label>Ajouter un élément</label></li> -- Choisir cette méthode ou cette du bouton pour add --
+                    </ul>
 
-                <!-- boutons permettant de mettre la tâche en complété ou non  -->
-                <button type="button">Complété</button>
-            </form>
-        </article>
+                    <button type="button">Ajouter un élément</button>
+
+                    -- boutons permettant de mettre la tâche en complété ou non --
+                    <button type="button">Complété</button>
+                </form>
+            </article> -->
+        </div>
     </section>
 </main>
 
