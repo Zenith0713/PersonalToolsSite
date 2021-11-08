@@ -13,8 +13,7 @@ class Database
     public function __construct()
     {
         $this->_msServerName = "localhost";
-        // $this->_miPort = 3306; // Default 
-        $this->_miPort = 3307; // in work
+        $this->_miPort = 3306; // Default 
         $this->_msDatabaseName = "mytools";
         $this->_msUsername = "root";
         $this->_msPassword = "";
@@ -35,7 +34,7 @@ class Database
                 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
         } catch (PDOException $e) {
-            // Faire quelques chsoes d'autres de ce message
+            // Faire quelques choses d'autres de ce message
             var_dump($e->getMessage());
         }
     }

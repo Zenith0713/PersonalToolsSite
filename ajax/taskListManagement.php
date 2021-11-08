@@ -31,25 +31,26 @@ class TaskListManagement
     // Méthode permettant de gérer les différents action concernant les tâches
     private function taskManagement()
     {
+        $sAjax = "";
+
         switch ($this->_msAction) {
             case "add":
                 $bError = $this->_moTask->insert($this->_maPost["taskName"]);
-                $sAjax = "";
 
                 if ($bError) {
                     $sAjax = "Ce nom de tâche est déjà pris";
                 }
 
-                $this->sendDataToJs($sAjax);
-
                 break;
             case "update":
-                // $this->_moTask->addTask();
+                $this->_moTask->update([$this->_maPost["taskName"], $this->_maPost["taskCategory"]]);
                 break;
             case "remove":
                 // $this->_moTask->addTask();
                 break;
         }
+
+        $this->sendDataToJs($sAjax);
     }
 
     // Méthode permettant de gérer les différents action concernant les éléments des tâches

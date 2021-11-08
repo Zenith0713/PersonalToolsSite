@@ -25,8 +25,8 @@ class Task
         }
 
         $sSql = "
-            INSERT INTO task (taskName, taskCategory, taskCompleted)
-            VALUES(?, 1, 0)
+            INSERT INTO task (taskName, taskCategory)
+            VALUES(?, 1)
         ";
 
         $this->_moDatabase->request($sSql, [$psTaskName], false);
@@ -34,11 +34,23 @@ class Task
         return false;
     }
 
+    // Méthode permettant de modifier une tâche
+    public function update(array $paValues)
+    {
+        $sSql = "
+            UPDATE task
+            SET taskName = ?, taskCategory = ?
+            WHERE taskId = ?
+        ";
+
+        $this->_moDatabase->request($sSql, [$paValues[0], $paValues[1], $paValues[2]], false);
+    }
+
     // Méthode permettant de séléctionner toutes les tâches
     public function selectAll(): array
     {
         $sSql = "
-            SELECT taskId, taskName, taskCategory, taskCompleted
+            SELECT taskId, taskName, taskCategory
             FROM task
         ";
 
