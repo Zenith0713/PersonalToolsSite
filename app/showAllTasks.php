@@ -19,8 +19,7 @@ function showAllTasks(): string
         $sAllTasksArticles .= "<article>
             <form method='POST' name='taskName' action='#'>
                 <h4>" . $aAllTasks[$i]["taskName"] . "</h4>
-                <input name='taskId' type='hidden' />
-                <span>X</span>
+                <span class='deleteButton'>X</span>
                 <div>
                     <label>Catégories</label>
                     <select>" . $sOptions  . "</select>

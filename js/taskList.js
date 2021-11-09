@@ -16,26 +16,35 @@ function setAllEventListener() {
   addTaskForm.addEventListener("submit", (event) => {
     event.preventDefault();
     if (taskNameInput.value === "") {
-      taskNameEmptyError.classList.remove("hidden");
+      taskNameEmptyError.classList.remove("hide");
     } else {
-      taskNameEmptyError.classList.add("hidden");
+      taskNameEmptyError.classList.add("hide");
       addTask();
     }
   });
 
   addTaskForm.addEventListener("keyup", () => {
-    taskNamealreadyTakeError.classList.add("hidden");
-    taskNameEmptyError.classList.add("hidden");
+    taskNamealreadyTakeError.classList.add("hide");
+    taskNameEmptyError.classList.add("hide");
   });
 }
 
 // Fonction permettant de définir tous les événements concernant les tâches
 function setTasksEventListener() {
+  let tasksForms = taskSection.querySelectorAll("form");
   let tasksSelectCategories = taskSection.querySelectorAll("article select");
+  let tasksDeleteButtons = taskSection.querySelectorAll(
+    "article .deleteButton"
+  );
 
   for (let i = 0; i < tasksSelectCategories.length; i++) {
     tasksSelectCategories[i].addEventListener("change", function () {
-      changeTaskCategory(this);
+      changeTaskCategory(tasksForms[i], this);
+    });
+
+    tasksDeleteButtons[i].addEventListener("click", function () {
+      console.log("Delete element !");
+      deleteTask(tasksForms[i]);
     });
   }
 }
@@ -56,7 +65,7 @@ function addTask() {
     .then((response) => response.json())
     .then((data) => {
       if (data !== "") {
-        taskNamealreadyTakeError.classList.remove("hidden");
+        taskNamealreadyTakeError.classList.remove("hide");
       } else {
         showNewTask(taskNameInput.value);
       }
@@ -66,18 +75,40 @@ function addTask() {
     });
 }
 
+function deleteTask(taskForm) {
+  console.log("Supprimer une tâche");
+  const taskName = taskForm.querySelector("h4").textContent;
+  let formData = new FormData();
+
+  formData.append("action", "remove");
+  formData.append("element", "task");
+  formData.append("taskName", taskName);
+
+  fetch("ajax/taskListManagement.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      taskForm.classList.add("hide");
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+}
+
 // Fonction permettant d'afficher la nouvelle tâche qui a été ajouté
-function showNewTask(taskName) {
+async function showNewTask(taskName) {
   const article = document.createElement("article");
+  const options = await setTaskCategoriesOptions();
   const taskStartHtml =
     "<form method='POST' name='taskName' action='#'><h4>" +
     taskName +
-    "</h4><span>X</span>";
+    "</h4><span class='deleteButton'>X</span>";
   const taskCategoryHtml =
-    "<div><label>Catégories</label><select><option value=''>Aucune</option><option value=''>Maison</option></select></div>";
+    "<div><label>Catégories </label><select>" + options + "</select></div>";
   const taskAddTaskHtml =
     "<ul><li><input name='addTask' type='checkbox' value='1'/><label>Ajouter un élément</label></li></ul><button type='button'>Ajouter un élément</button>";
-  const taskEndHtml = "<button type='button'>Complété</button></form>";
+  const taskEndHtml = "</form>";
 
   article.innerHTML +=
     taskStartHtml + taskCategoryHtml + taskAddTaskHtml + taskEndHtml;
@@ -86,19 +117,42 @@ function showNewTask(taskName) {
 }
 
 // Fonction permettant
-function changeTaskCategory(selectCategory) {
-  const form
-  const taskTitle = selectCategory.parentNode.parentNode.querySelector("h4");
-  const taskTitle = selectCategory.parentNode.parentNode.querySelector(
-    "input[name='taskId']"
-  );
-  const taskName = taskTitle.textContent;
-  const selectValue = selectCategory.value;
+function setTaskCategoriesOptions() {
   let formData = new FormData();
 
-  console.log("Modifier une catégorie");
-  console.log(taskName);
-  console.log(selectValue);
+  formData.append("action", "selectAll");
+  formData.append("element", "taskCategories");
+  return new Promise((resolve) => {
+    fetch("ajax/taskListManagement.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        let options = "";
+
+        for (let i = 0; i < data.length; i++) {
+          options +=
+            "<option value='" +
+            data[i]["categoryId"] +
+            "'>" +
+            data[i]["categoryName"] +
+            "</option>";
+        }
+
+        resolve(options);
+      })
+      .catch((error) => {
+        return console.error(error);
+      });
+  });
+}
+
+// Fonction permettant
+function changeTaskCategory(taskForm, selectCategory) {
+  const taskName = taskForm.querySelector("h4").textContent;
+  const selectValue = selectCategory.value;
+  let formData = new FormData();
 
   formData.append("action", "update");
   formData.append("element", "task");
@@ -108,14 +162,9 @@ function changeTaskCategory(selectCategory) {
   fetch("ajax/taskListManagement.php", {
     method: "POST",
     body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      return console.error(error);
-    });
+  }).catch((error) => {
+    return console.error(error);
+  });
 }
 
 // Initialisation de la fonction setAllEventListener et ajout de l'eventListener qui permet de lancer la fonction lorsque toute

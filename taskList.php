@@ -40,8 +40,8 @@ include("app/showAllTasks.php");
 
             <form name="addTask">
                 <div>
-                    <div id="emptyError" class="hidden inputError">Veuillez remplir le champ</div>
-                    <div id="alreadyTakeError" class="hidden inputError">Ce nom est déjà utilisé !</div>
+                    <div id="emptyError" class="hide inputError">Veuillez remplir le champ</div>
+                    <div id="alreadyTakeError" class="hide inputError">Ce nom est déjà utilisé !</div>
                     <label for="newTask">Nom de la tâche :</label>
                     <input id="newTask" name="newTask" type="text" placeholder="Nouvelle tâche" />
                 </div>

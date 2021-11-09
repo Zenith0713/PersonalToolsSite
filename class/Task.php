@@ -39,23 +39,34 @@ class Task
     {
         $sSql = "
             UPDATE task
-            SET taskName = ?, taskCategory = ?
-            WHERE taskId = ?
+            SET taskCategory = ?
+            WHERE taskName = ?
         ";
 
-        $this->_moDatabase->request($sSql, [$paValues[0], $paValues[1], $paValues[2]], false);
+        $this->_moDatabase->request($sSql, [$paValues[0], $paValues[1]], false);
     }
 
     // Méthode permettant de séléctionner toutes les tâches
     public function selectAll(): array
     {
         $sSql = "
-            SELECT taskId, taskName, taskCategory
+            SELECT taskName, taskCategory
             FROM task
         ";
 
         $aAllTask = $this->_moDatabase->request($sSql);
 
         return $aAllTask;
+    }
+
+    // 
+    public function delete(String $psKey)
+    {
+        $sSql = "
+            DELETE FROM task
+            WHERE taskName = ?
+        ";
+
+        $this->_moDatabase->request($sSql, [$psKey], false);
     }
 }

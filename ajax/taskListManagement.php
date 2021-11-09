@@ -6,12 +6,14 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.ph
 class TaskListManagement
 {
     private Task $_moTask;
+    private TaskCategory $_moTaskCategory;
     private String $_msAction;
     private array $_maPost;
 
     public function __construct(array $paPost, array $paGet)
     {
         $this->_moTask = new Task();
+        $this->_moTaskCategory = new TaskCategory();
         $this->_maPost = $paPost;
         $this->_msAction = $this->_maPost["action"];
 
@@ -43,10 +45,10 @@ class TaskListManagement
 
                 break;
             case "update":
-                $this->_moTask->update([$this->_maPost["taskName"], $this->_maPost["taskCategory"]]);
+                $this->_moTask->update([$this->_maPost["taskCategory"], $this->_maPost["taskName"]]);
                 break;
             case "remove":
-                // $this->_moTask->addTask();
+                $this->_moTask->delete($this->_maPost["taskName"]);
                 break;
         }
 
@@ -72,17 +74,24 @@ class TaskListManagement
     // Méthode permettant de gérer les différents action concernant les catégories
     private function categoriesManagement()
     {
-        // switch ($this->_msAction) {
-        //     case "add":
-        //         $this->_moTask->addTask();
-        //         break;
-        //     case "update":
-        //         $this->_moTask->addTask();
-        //         break;
-        //     case "remove":
-        //         $this->_moTask->addTask();
-        //         break;
-        // }
+        $ajaxData = "";
+
+        switch ($this->_msAction) {
+            case "selectAll":
+                $ajaxData = $this->_moTaskCategory->selectAll();
+                break;
+                //     case "add":
+                //         $this->_moTask->addTask();
+                //         break;
+                //     case "update":
+                //         $this->_moTask->addTask();
+                //         break;
+                //     case "remove":
+                //         $this->_moTask->addTask();
+                //         break;
+        }
+
+        $this->sendDataToJs($ajaxData);
     }
 
     // Méthode permettant d'envoyé le contenu de la variable "pmData" au fichier javascript
