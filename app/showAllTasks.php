@@ -10,8 +10,6 @@ function showAllTasks(): string
 
     $aAllTasks = $oTask->selectAll();
 
-    $aAllTasks = array_reverse($aAllTasks);
-
     $sAllTasksArticles = "";
 
     for ($i = 0; $i < count($aAllTasks); $i++) {
@@ -25,10 +23,19 @@ function showAllTasks(): string
                     <select>" . $sOptions  . "</select>
                 </div>
                 <ul>
-                    <li><input name='addTask' type='checkbox' value='1'/><label>Ajouter un élément</label></li>
+                    <li>
+                        <input name='taskCompleted' type='checkbox' value='1'/>
+                        <label>Ajouter un élément</label>
+                        <input name='element1' type='text' class='hide' value='Ajouter un élément'/>
+                        <label class='hide'>V</label>
+                        <label>X</label>
+                    </li>
                 </ul>
         
-                <button type='button'>Ajouter un élément</button>
+                <div>
+                <input name='addElementTask' type='text' />
+                <button class='addElementButton' type='button'>Ajouter un élément</button>
+                </div>
             </form>
         </article>";
     }

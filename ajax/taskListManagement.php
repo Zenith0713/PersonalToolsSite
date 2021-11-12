@@ -19,7 +19,7 @@ class TaskListManagement
 
         switch ($this->_maPost["element"]) {
             case "task":
-                $this->taskManagement();
+                $this->tasksManagement();
                 break;
             case "taskElements":
                 $this->taskElementsManagement();
@@ -31,13 +31,13 @@ class TaskListManagement
     }
 
     // Méthode permettant de gérer les différents action concernant les tâches
-    private function taskManagement()
+    private function tasksManagement()
     {
         $sAjax = "";
 
         switch ($this->_msAction) {
             case "add":
-                $bError = $this->_moTask->insert($this->_maPost["taskName"]);
+                $bError = $this->_moTask->insert([$this->_maPost["taskName"]]);
 
                 if ($bError) {
                     $sAjax = "Ce nom de tâche est déjà pris";

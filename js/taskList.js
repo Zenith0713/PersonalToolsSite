@@ -36,6 +36,9 @@ function setTasksEventListener() {
   let tasksDeleteButtons = taskSection.querySelectorAll(
     "article .deleteButton"
   );
+  let addElementButtons = taskSection.querySelectorAll(
+    "article .addElementButton"
+  );
 
   for (let i = 0; i < tasksSelectCategories.length; i++) {
     tasksSelectCategories[i].addEventListener("change", function () {
@@ -43,8 +46,14 @@ function setTasksEventListener() {
     });
 
     tasksDeleteButtons[i].addEventListener("click", function () {
-      console.log("Delete element !");
+      console.log("Delete task !");
       deleteTask(tasksForms[i]);
+    });
+
+    addElementButtons[i].addEventListener("click", function () {
+      console.log("Add element !");
+
+      addElementTask(this);
     });
   }
 }
@@ -166,6 +175,9 @@ function changeTaskCategory(taskForm, selectCategory) {
     return console.error(error);
   });
 }
+
+// Fonction permettant
+function addElementTask() {}
 
 // Initialisation de la fonction setAllEventListener et ajout de l'eventListener qui permet de lancer la fonction lorsque toute
 // la page est bien chargée

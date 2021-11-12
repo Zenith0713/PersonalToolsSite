@@ -12,14 +12,14 @@ class Task
         $this->_moDatabase = new Database();
     }
 
-    // Méthode permettant d'ajouter une tâche
-    public function insert(String $psTaskName): bool
+    // Méthode permettant d'ajouter une tâche si le nom de cette tâche n'existe pas déjà
+    public function insert(array $paValue): bool
     {
         $aAllTask = $this->selectAll();
 
         // Vérifie si le nom de la tâche existe déjà
         for ($i = 0; $i < count($aAllTask); $i++) {
-            if ($psTaskName === $aAllTask[$i]["taskName"]) {
+            if ($paValue[0] === $aAllTask[$i]["taskName"]) {
                 return true;
             }
         }
@@ -29,7 +29,7 @@ class Task
             VALUES(?, 1)
         ";
 
-        $this->_moDatabase->request($sSql, [$psTaskName], false);
+        $this->_moDatabase->request($sSql, [$paValue[0]], false);
 
         return false;
     }
@@ -52,6 +52,7 @@ class Task
         $sSql = "
             SELECT taskName, taskCategory
             FROM task
+            ORDER BY creationDate DESC
         ";
 
         $aAllTask = $this->_moDatabase->request($sSql);
@@ -59,7 +60,7 @@ class Task
         return $aAllTask;
     }
 
-    // 
+    // Méthode permettant de supprimer une tâche
     public function delete(String $psKey)
     {
         $sSql = "
