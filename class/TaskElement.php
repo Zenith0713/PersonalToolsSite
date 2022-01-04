@@ -12,28 +12,43 @@ class TaskElement
         $this->_moDatabase = new Database();
     }
 
-    public function insert(): bool
+    // Méthode permettant
+    public function insert(array $paValue): bool
     {
         $sSql = "
-            INSERT INTO taskelements (elementId, elementName, elementTask)
+            INSERT INTO taskelements (elementName, elementTask)
             VALUES(?, ?)
         ";
 
-        $this->_moDatabase->request($sSql, [], false);
+        $this->_moDatabase->request($sSql, [$paValue[0], $paValue[1]], false);
 
         return false;
     }
 
-    // Méthode permettant de séléctionner toutes les catégories
+    // Méthode permettant de séléctionner tous les éléments d'une tâche
+    public function selectFromTask(String $psTaskName): array
+    {
+        $sSql = "
+            SELECT elementId, elementName, elementTask
+            FROM taskelements
+            WHERE elementTask = ?
+        ";
+
+        $aAllTaskElements = $this->_moDatabase->request($sSql, [$psTaskName]);
+
+        return $aAllTaskElements;
+    }
+
+    // Méthode permettant de séléctionner tous les éléments
     public function selectAll(): array
     {
         $sSql = "
-            SELECT categoryId, categoryName
-            FROM taskcategories
+            SELECT elementId, elementName, elementTask
+            FROM taskelements
         ";
 
-        $aAllTask = $this->_moDatabase->request($sSql);
+        $aAllElements = $this->_moDatabase->request($sSql);
 
-        return $aAllTask;
+        return $aAllElements;
     }
 }

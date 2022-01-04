@@ -25,7 +25,7 @@ class Task
         }
 
         $sSql = "
-            INSERT INTO task (taskName, taskCategory)
+            INSERT INTO tasks (taskName, taskCategory)
             VALUES(?, 1)
         ";
 
@@ -38,7 +38,7 @@ class Task
     public function update(array $paValues)
     {
         $sSql = "
-            UPDATE task
+            UPDATE tasks
             SET taskCategory = ?
             WHERE taskName = ?
         ";
@@ -51,7 +51,7 @@ class Task
     {
         $sSql = "
             SELECT taskName, taskCategory
-            FROM task
+            FROM tasks
             ORDER BY creationDate DESC
         ";
 
@@ -64,7 +64,7 @@ class Task
     public function delete(String $psKey)
     {
         $sSql = "
-            DELETE FROM task
+            DELETE FROM tasks
             WHERE taskName = ?
         ";
 

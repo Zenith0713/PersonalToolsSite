@@ -6,41 +6,45 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.ph
 class TaskListManagement
 {
     private Task $_moTask;
+    private TaskElement $_moTaskElement;
     private TaskCategory $_moTaskCategory;
-    private String $_msAction;
     private array $_maPost;
+    private String $_msAction;
+    private $_mAjax;
 
     public function __construct(array $paPost, array $paGet)
     {
         $this->_moTask = new Task();
         $this->_moTaskCategory = new TaskCategory();
+        $this->_moTaskElement = new TaskElement();
         $this->_maPost = $paPost;
         $this->_msAction = $this->_maPost["action"];
+        $this->_mAjax = "";
 
         switch ($this->_maPost["element"]) {
             case "task":
                 $this->tasksManagement();
                 break;
-            case "taskElements":
+            case "taskElement":
                 $this->taskElementsManagement();
                 break;
-            case "taskCategories":
+            case "taskCategory":
                 $this->categoriesManagement();
                 break;
         }
+
+        $this->sendDataToJs($this->_mAjax);
     }
 
     // Méthode permettant de gérer les différents action concernant les tâches
     private function tasksManagement()
     {
-        $sAjax = "";
-
         switch ($this->_msAction) {
             case "add":
                 $bError = $this->_moTask->insert([$this->_maPost["taskName"]]);
 
                 if ($bError) {
-                    $sAjax = "Ce nom de tâche est déjà pris";
+                    $this->_mAjax = "Ce nom de tâche est déjà pris";
                 }
 
                 break;
@@ -51,34 +55,30 @@ class TaskListManagement
                 $this->_moTask->delete($this->_maPost["taskName"]);
                 break;
         }
-
-        $this->sendDataToJs($sAjax);
     }
 
     // Méthode permettant de gérer les différents action concernant les éléments des tâches
     private function taskElementsManagement()
     {
-        // switch ($this->_msAction) {
-        //     case "add":
-        //         $this->_moTask->addTask();
-        //         break;
-        //     case "update":
-        //         $this->_moTask->addTask();
-        //         break;
-        //     case "remove":
-        //         $this->_moTask->addTask();
-        //         break;
-        // }
+        switch ($this->_msAction) {
+            case "add":
+                $this->_moTaskElement->insert([$this->_maPost["elementName"], $this->_maPost["elementTask"]]);
+                break;
+                // case "update":
+                //     $this->_moTask->addTask();
+                //     break;
+                // case "remove":
+                //     $this->_moTask->addTask();
+                //     break;
+        }
     }
 
     // Méthode permettant de gérer les différents action concernant les catégories
     private function categoriesManagement()
     {
-        $ajaxData = "";
-
         switch ($this->_msAction) {
             case "selectAll":
-                $ajaxData = $this->_moTaskCategory->selectAll();
+                $this->_mAjax = $this->_moTaskCategory->selectAll();
                 break;
                 //     case "add":
                 //         $this->_moTask->addTask();
@@ -90,8 +90,6 @@ class TaskListManagement
                 //         $this->_moTask->addTask();
                 //         break;
         }
-
-        $this->sendDataToJs($ajaxData);
     }
 
     // Méthode permettant d'envoyé le contenu de la variable "pmData" au fichier javascript

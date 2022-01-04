@@ -53,12 +53,12 @@ function setTasksEventListener() {
     addElementButtons[i].addEventListener("click", function () {
       console.log("Add element !");
 
-      addElementTask(this);
+      addElementTask(tasksForms[i]);
     });
   }
 }
 
-// Fonction permettant d'ajouter une nouvelle tâche dans la base de donnée
+// Fonction permettant d'ajouter une nouvelle tâche dans la base de données
 function addTask() {
   console.log("Ajouter une tâche");
 
@@ -77,6 +77,7 @@ function addTask() {
         taskNamealreadyTakeError.classList.remove("hide");
       } else {
         showNewTask(taskNameInput.value);
+        taskNameInput.value = "";
       }
     })
     .catch((error) => {
@@ -109,12 +110,8 @@ function deleteTask(taskForm) {
 async function showNewTask(taskName) {
   const article = document.createElement("article");
   const options = await setTaskCategoriesOptions();
-  const taskStartHtml =
-    "<form method='POST' name='taskName' action='#'><h4>" +
-    taskName +
-    "</h4><span class='deleteButton'>X</span>";
-  const taskCategoryHtml =
-    "<div><label>Catégories </label><select>" + options + "</select></div>";
+  const taskStartHtml = `<form method='POST' name='taskName' action='#'><h4>"${taskName}</h4><span class='deleteButton'>X</span>`;
+  const taskCategoryHtml = `<div><label>Catégories </label><select>${options}</select></div>`;
   const taskAddTaskHtml =
     "<ul><li><input name='addTask' type='checkbox' value='1'/><label>Ajouter un élément</label></li></ul><button type='button'>Ajouter un élément</button>";
   const taskEndHtml = "</form>";
@@ -130,7 +127,7 @@ function setTaskCategoriesOptions() {
   let formData = new FormData();
 
   formData.append("action", "selectAll");
-  formData.append("element", "taskCategories");
+  formData.append("element", "taskCategory");
   return new Promise((resolve) => {
     fetch("ajax/taskListManagement.php", {
       method: "POST",
@@ -141,12 +138,7 @@ function setTaskCategoriesOptions() {
         let options = "";
 
         for (let i = 0; i < data.length; i++) {
-          options +=
-            "<option value='" +
-            data[i]["categoryId"] +
-            "'>" +
-            data[i]["categoryName"] +
-            "</option>";
+          options += `<option value='${data[i]["categoryId"]}'>${data[i]["categoryName"]}</option>`;
         }
 
         resolve(options);
@@ -177,7 +169,43 @@ function changeTaskCategory(taskForm, selectCategory) {
 }
 
 // Fonction permettant
-function addElementTask() {}
+function addElementTask(taskForm) {
+  const elementTaskInput = taskForm.querySelector(
+    "input[name='addElementTask']"
+  );
+  const taskName = taskForm.querySelector("h4").textContent;
+  let formData = new FormData();
+
+  formData.append("action", "add");
+  formData.append("element", "taskElement");
+  formData.append("elementName", elementTaskInput.value);
+  formData.append("elementTask", taskName);
+
+  fetch("ajax/taskListManagement.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      showElementTask(taskForm, elementTaskInput.value);
+      elementTaskInput.value = "";
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+}
+
+// Fonction permettant
+function showElementTask(taskForm, elementName) {
+  const elementsTaskList = taskForm.querySelector("ul");
+  const li = document.createElement("li");
+
+  const elementTaskStartHtml = `<input name='taskCompleted' type='checkbox' value='1'/><label>${elementName}</label>`;
+  const elementTaskEndHtml = `<input name='element1' type='text' class='hide' value='${elementName}'/><label class='hide'>V</label><label>X</label>`;
+
+  li.innerHTML += elementTaskStartHtml + elementTaskEndHtml;
+  elementsTaskList.prepend(li);
+}
 
 // Initialisation de la fonction setAllEventListener et ajout de l'eventListener qui permet de lancer la fonction lorsque toute
 // la page est bien chargée
