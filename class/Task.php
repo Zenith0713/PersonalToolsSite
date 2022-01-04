@@ -1,6 +1,7 @@
 <?php
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
+// require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Database.php");
 
 // Classe permettant 
 class Task
@@ -63,6 +64,13 @@ class Task
     // Méthode permettant de supprimer une tâche
     public function delete(String $psKey)
     {
+        $sSql = "
+            DELETE FROM taskElements
+            WHERE elementTask = ?
+        ";
+
+        $this->_moDatabase->request($sSql, [$psKey], false);
+
         $sSql = "
             DELETE FROM tasks
             WHERE taskName = ?

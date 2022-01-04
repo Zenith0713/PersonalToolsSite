@@ -5,7 +5,6 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.ph
 // Fonction permettant
 function showAllTasks(): string
 {
-
     $oTask = new Task();
 
     $aAllTasks = $oTask->selectAll();
@@ -17,7 +16,7 @@ function showAllTasks(): string
         $sElementsList = setElements($aAllTasks[$i]["taskName"]);
 
         $sAllTasksArticles .= "<article>
-            <form method='POST' name='taskName' action='#'>
+            <form method='POST' name='" . $aAllTasks[$i]["taskName"] . "Form' action='#'>
                 <h4>" . $aAllTasks[$i]["taskName"] . "</h4>
                 <span class='deleteButton'>X</span>
                 <div>
@@ -62,7 +61,7 @@ function setElements(String $psTaskName): string
 {
     $oTaskElement = new TaskElement();
     $aAllTaskElements = $oTaskElement->selectFromTask($psTaskName);
-
+    $aAllTaskElements = array_reverse($aAllTaskElements);
     $sTaskElementsList = "";
 
     for ($i = 0; $i < count($aAllTaskElements); $i++) {
@@ -71,7 +70,7 @@ function setElements(String $psTaskName): string
             <label>" . $aAllTaskElements[$i]["elementName"] . "</label>
             <input name='element" . $i . "' type='text' class='hide' value='" . $aAllTaskElements[$i]["elementName"] . "'/>
             <label class='hide'>V</label>
-            <label>X</label>
+            <label class='deleteElement' data-element='" . $aAllTaskElements[$i]["elementId"] . "'>X</label>
         </li>";
     }
 

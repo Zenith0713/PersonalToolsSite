@@ -36,7 +36,7 @@ class TaskListManagement
         $this->sendDataToJs($this->_mAjax);
     }
 
-    // Méthode permettant de gérer les différents action concernant les tâches
+    // Méthode permettant de gérer les différentes actions concernant les tâches
     private function tasksManagement()
     {
         switch ($this->_msAction) {
@@ -57,23 +57,21 @@ class TaskListManagement
         }
     }
 
-    // Méthode permettant de gérer les différents action concernant les éléments des tâches
+    // Méthode permettant de gérer les différentes actions concernant les éléments des tâches
     private function taskElementsManagement()
     {
         switch ($this->_msAction) {
             case "add":
-                $this->_moTaskElement->insert([$this->_maPost["elementName"], $this->_maPost["elementTask"]]);
+                $aElement = $this->_moTaskElement->insert([$this->_maPost["elementName"], $this->_maPost["elementTask"]]);
+                $this->_mAjax = $aElement;
                 break;
-                // case "update":
-                //     $this->_moTask->addTask();
-                //     break;
-                // case "remove":
-                //     $this->_moTask->addTask();
-                //     break;
+            case "remove":
+                $this->_moTaskElement->delete($this->_maPost["elementId"]);
+                break;
         }
     }
 
-    // Méthode permettant de gérer les différents action concernant les catégories
+    // Méthode permettant de gérer les différentes actions concernant les catégories
     private function categoriesManagement()
     {
         switch ($this->_msAction) {

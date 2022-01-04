@@ -13,7 +13,7 @@ class TaskElement
     }
 
     // Méthode permettant
-    public function insert(array $paValue): bool
+    public function insert(array $paValue): array
     {
         $sSql = "
             INSERT INTO taskelements (elementName, elementTask)
@@ -22,7 +22,9 @@ class TaskElement
 
         $this->_moDatabase->request($sSql, [$paValue[0], $paValue[1]], false);
 
-        return false;
+        $aElement = $this->selectValue($paValue);
+
+        return $aElement;
     }
 
     // Méthode permettant de séléctionner tous les éléments d'une tâche
@@ -40,15 +42,27 @@ class TaskElement
     }
 
     // Méthode permettant de séléctionner tous les éléments
-    public function selectAll(): array
+    public function selectValue(array $paValue): array
     {
         $sSql = "
             SELECT elementId, elementName, elementTask
             FROM taskelements
+            WHERE elementName = ? AND elementTask = ?
         ";
 
-        $aAllElements = $this->_moDatabase->request($sSql);
+        $aElement = $this->_moDatabase->request($sSql, [$paValue[0], $paValue[1]]);
 
-        return $aAllElements;
+        return $aElement;
+    }
+
+    // Méthode permettant de supprimer un élémént d'une tâche
+    public function delete(String $psKey)
+    {
+        $sSql = "
+            DELETE FROM taskElements
+            WHERE elementId = ?
+        ";
+
+        $this->_moDatabase->request($sSql, [$psKey], false);
     }
 }

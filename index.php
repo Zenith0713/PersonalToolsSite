@@ -42,5 +42,4 @@
 <!-- <p>(peut etre se servir d'autres api, fonctionnalitées non communes)</p> -->
 
 <!-- All Script -->
-<script src="js/index.js"></script>
 <?php include("includes/footer.php"); ?>

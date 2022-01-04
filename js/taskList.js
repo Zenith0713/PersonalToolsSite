@@ -7,11 +7,11 @@ const taskNameInput = addTaskForm.querySelector("input");
 const taskNameEmptyError = document.getElementById("emptyError");
 const taskNamealreadyTakeError = document.getElementById("alreadyTakeError");
 const taskSection = document.querySelector("main section:nth-of-type(2) div");
-let taskSelectCategory = taskSection.querySelectorAll("article select");
+const taskSelectCategory = taskSection.querySelectorAll("article select");
 
 // Fonction permettant de définir tous les événements de la page
 function setAllEventListener() {
-  setTasksEventListener();
+  const tasksForms = taskSection.querySelectorAll("form");
 
   addTaskForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -27,33 +27,41 @@ function setAllEventListener() {
     taskNamealreadyTakeError.classList.add("hide");
     taskNameEmptyError.classList.add("hide");
   });
+
+  for (let i = 0; i < tasksForms.length; i++) {
+    setTasksEventListener(tasksForms[i]);
+  }
 }
 
 // Fonction permettant de définir tous les événements concernant les tâches
-function setTasksEventListener() {
-  let tasksForms = taskSection.querySelectorAll("form");
-  let tasksSelectCategories = taskSection.querySelectorAll("article select");
-  let tasksDeleteButtons = taskSection.querySelectorAll(
-    "article .deleteButton"
-  );
-  let addElementButtons = taskSection.querySelectorAll(
-    "article .addElementButton"
-  );
+function setTasksEventListener(taskForm) {
+  const taskSelectCategories = taskForm.querySelector("select");
+  const taskDeleteButton = taskForm.querySelector(".deleteButton");
+  const addElementButton = taskForm.querySelector(".addElementButton");
+  const taskElementDeleteButtons =
+    taskSection.querySelectorAll(".deleteElement");
 
-  for (let i = 0; i < tasksSelectCategories.length; i++) {
-    tasksSelectCategories[i].addEventListener("change", function () {
-      changeTaskCategory(tasksForms[i], this);
-    });
+  taskSelectCategories.addEventListener("change", function () {
+    changeTaskCategory(taskForm, this);
+  });
 
-    tasksDeleteButtons[i].addEventListener("click", function () {
-      console.log("Delete task !");
-      deleteTask(tasksForms[i]);
-    });
+  taskDeleteButton.addEventListener("click", function () {
+    console.log("Delete task !");
+    deleteTask(taskForm);
+  });
 
-    addElementButtons[i].addEventListener("click", function () {
-      console.log("Add element !");
+  addElementButton.addEventListener("click", function () {
+    console.log("Add element !");
 
-      addElementTask(tasksForms[i]);
+    addElementTask(taskForm);
+  });
+
+  for (let i = 0; i < taskElementDeleteButtons.length; i++) {
+    taskElementDeleteButtons[i].addEventListener("click", function () {
+      const elementId = this.getAttribute("data-element");
+      console.log("Delete elementTask !");
+
+      deleteElementTask(taskForm, elementId);
     });
   }
 }
@@ -85,6 +93,7 @@ function addTask() {
     });
 }
 
+// Fonction permettant de supprimer une tâche
 function deleteTask(taskForm) {
   console.log("Supprimer une tâche");
   const taskName = taskForm.querySelector("h4").textContent;
@@ -110,16 +119,18 @@ function deleteTask(taskForm) {
 async function showNewTask(taskName) {
   const article = document.createElement("article");
   const options = await setTaskCategoriesOptions();
-  const taskStartHtml = `<form method='POST' name='taskName' action='#'><h4>"${taskName}</h4><span class='deleteButton'>X</span>`;
+  const taskStartHtml = `<form method='POST' name='${taskName}Form' action='#'><h4>${taskName}</h4><span class='deleteButton'>X</span>`;
   const taskCategoryHtml = `<div><label>Catégories </label><select>${options}</select></div>`;
   const taskAddTaskHtml =
-    "<ul><li><input name='addTask' type='checkbox' value='1'/><label>Ajouter un élément</label></li></ul><button type='button'>Ajouter un élément</button>";
+    "<ul></ul><div><input name='addElementTask' type='text' /><button class='addElementButton' type='button'>Ajouter un élément</button></div>";
   const taskEndHtml = "</form>";
 
   article.innerHTML +=
     taskStartHtml + taskCategoryHtml + taskAddTaskHtml + taskEndHtml;
   taskSection.prepend(article);
-  setTasksEventListener();
+
+  const taskForm = article.querySelector("form");
+  setTasksEventListener(taskForm);
 }
 
 // Fonction permettant
@@ -149,7 +160,7 @@ function setTaskCategoriesOptions() {
   });
 }
 
-// Fonction permettant
+// Fonction permettant de changer la catégorie d'une tâche
 function changeTaskCategory(taskForm, selectCategory) {
   const taskName = taskForm.querySelector("h4").textContent;
   const selectValue = selectCategory.value;
@@ -168,7 +179,7 @@ function changeTaskCategory(taskForm, selectCategory) {
   });
 }
 
-// Fonction permettant
+// Fonction permettant d'ajouter le nouvel élément d'une tâche
 function addElementTask(taskForm) {
   const elementTaskInput = taskForm.querySelector(
     "input[name='addElementTask']"
@@ -176,35 +187,76 @@ function addElementTask(taskForm) {
   const taskName = taskForm.querySelector("h4").textContent;
   let formData = new FormData();
 
-  formData.append("action", "add");
+  if (elementTaskInput.value !== "") {
+    formData.append("action", "add");
+    formData.append("element", "taskElement");
+    formData.append("elementName", elementTaskInput.value);
+    formData.append("elementTask", taskName);
+
+    console.log("test");
+    fetch("ajax/taskListManagement.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        showElementTask(taskForm, data[0]);
+        elementTaskInput.value = "";
+      })
+      .catch((error) => {
+        return console.error(error);
+      });
+  }
+}
+
+// Fonction permettant d'afficher l'élément d'une tâche
+function showElementTask(taskForm, elementValues) {
+  console.log("show element");
+  const elementsTaskList = taskForm.querySelector("ul");
+  const li = document.createElement("li");
+  const elementTaskStartHtml = `<input name='taskCompleted' type='checkbox' value='1'/><label> ${elementValues.elementName}</label>`;
+  const elementTaskEndHtml = `<input name='element1' type='text' class='hide' value='${elementValues.elementName}'/><label class='hide'>V</label>`;
+  const elementTaskDeleteButtonHtml = `<label class='deleteElement' data-element='${elementValues.elementId}'> X</label>`;
+
+  li.innerHTML +=
+    elementTaskStartHtml + elementTaskEndHtml + elementTaskDeleteButtonHtml;
+  elementsTaskList.prepend(li);
+
+  const taskElementDeleteButton = li.querySelector(".deleteElement");
+
+  taskElementDeleteButton.addEventListener("click", function () {
+    const elementId = this.getAttribute("data-element");
+    console.log("Delete elementTask !");
+
+    deleteElementTask(taskForm, elementId);
+  });
+}
+
+// Fonction permettant de supprimer l'élement d'une tâche
+function deleteElementTask(taskForm, elementId) {
+  const taskName = taskForm.querySelector("h4").textContent;
+  const elementTaskButtons = taskForm.querySelectorAll(".deleteElement");
+  let formData = new FormData();
+
+  formData.append("action", "remove");
   formData.append("element", "taskElement");
-  formData.append("elementName", elementTaskInput.value);
   formData.append("elementTask", taskName);
+  formData.append("elementId", elementId);
 
   fetch("ajax/taskListManagement.php", {
     method: "POST",
     body: formData,
   })
-    .then((response) => response.json())
-    .then((data) => {
-      showElementTask(taskForm, elementTaskInput.value);
-      elementTaskInput.value = "";
+    .then((response) => {
+      for (let i = 0; i < elementTaskButtons.length; i++) {
+        if (elementTaskButtons[i].getAttribute("data-element") === elementId) {
+          elementTaskButtons[i].parentNode.classList.add("hide");
+        }
+      }
     })
     .catch((error) => {
       return console.error(error);
     });
-}
-
-// Fonction permettant
-function showElementTask(taskForm, elementName) {
-  const elementsTaskList = taskForm.querySelector("ul");
-  const li = document.createElement("li");
-
-  const elementTaskStartHtml = `<input name='taskCompleted' type='checkbox' value='1'/><label>${elementName}</label>`;
-  const elementTaskEndHtml = `<input name='element1' type='text' class='hide' value='${elementName}'/><label class='hide'>V</label><label>X</label>`;
-
-  li.innerHTML += elementTaskStartHtml + elementTaskEndHtml;
-  elementsTaskList.prepend(li);
 }
 
 // Initialisation de la fonction setAllEventListener et ajout de l'eventListener qui permet de lancer la fonction lorsque toute
