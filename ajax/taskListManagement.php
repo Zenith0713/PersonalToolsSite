@@ -48,9 +48,6 @@ class TaskListManagement
                 }
 
                 break;
-            case "update":
-                $this->_moTask->update([$this->_maPost["taskCategory"], $this->_maPost["taskName"]]);
-                break;
             case "remove":
                 $this->_moTask->delete($this->_maPost["taskName"]);
                 break;
@@ -64,6 +61,9 @@ class TaskListManagement
             case "add":
                 $aElement = $this->_moTaskElement->insert([$this->_maPost["elementName"], $this->_maPost["elementTask"]]);
                 $this->_mAjax = $aElement;
+                break;
+            case "update":
+                $this->_moTaskElement->update([$this->_maPost["elementValue"], $this->_maPost["elementId"]]);
                 break;
             case "remove":
                 $this->_moTaskElement->delete($this->_maPost["elementId"]);

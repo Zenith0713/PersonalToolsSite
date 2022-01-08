@@ -35,18 +35,6 @@ class Task
         return false;
     }
 
-    // Méthode permettant de modifier une tâche
-    public function update(array $paValues)
-    {
-        $sSql = "
-            UPDATE tasks
-            SET taskCategory = ?
-            WHERE taskName = ?
-        ";
-
-        $this->_moDatabase->request($sSql, [$paValues[0], $paValues[1]], false);
-    }
-
     // Méthode permettant de séléctionner toutes les tâches
     public function selectAll(): array
     {
@@ -61,7 +49,7 @@ class Task
         return $aAllTask;
     }
 
-    // Méthode permettant de supprimer une tâche
+    // Méthode permettant de supprimer une tâche ainsi que tous les éléments la concernant
     public function delete(String $psKey)
     {
         $sSql = "

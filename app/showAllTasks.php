@@ -16,19 +16,17 @@ function showAllTasks(): string
         $sElementsList = setElements($aAllTasks[$i]["taskName"]);
 
         $sAllTasksArticles .= "<article>
-            <form method='POST' name='" . $aAllTasks[$i]["taskName"] . "Form' action='#'>
-                <h4>" . $aAllTasks[$i]["taskName"] . "</h4>
-                <span class='deleteButton'>X</span>
-                <div>
-                    <label>Catégories</label>
-                    <select>" . $sOptions  . "</select>
-                </div>
-                <ul>" . $sElementsList . "</ul>
-                <div>
-                    <input name='addElementTask' type='text' />
-                    <button class='addElementButton' type='button'>Ajouter un élément</button>
-                </div>
-            </form>
+            <h4>" . $aAllTasks[$i]["taskName"] . "</h4>
+            <span class='deleteButton'>X</span>
+            <div>
+                <label>Catégories</label>
+                <select>" . $sOptions  . "</select>
+            </div>
+            <ul>" . $sElementsList . "</ul>
+            <div>
+                <input name='addElementTask' type='text' />
+                <button class='addElementButton' type='button'>Ajouter un élément</button>
+            </div>
         </article>";
     }
 
@@ -68,10 +66,22 @@ function setElements(String $psTaskName): string
         $sTaskElementsList .= "<li>
             <input name='taskCompleted' type='checkbox' value='1'/>
             <label>" . $aAllTaskElements[$i]["elementName"] . "</label>
-            <input name='element" . $i . "' type='text' class='hide' value='" . $aAllTaskElements[$i]["elementName"] . "'/>
-            <label class='hide'>V</label>
+            <form class='hide'>
+                <input name='" . $aAllTaskElements[$i]["elementId"] . "' type='text' value='" . $aAllTaskElements[$i]["elementName"] . "'/>
+            </form>
+            <label class='updateElement' data-element='" . $aAllTaskElements[$i]["elementId"] . "'>V</label>
             <label class='deleteElement' data-element='" . $aAllTaskElements[$i]["elementId"] . "'>X</label>
         </li>";
+
+        // $sTaskElementsList .= "<li>
+        //     <input name='taskCompleted' type='checkbox' value='1'/>
+        //     <label>" . $aAllTaskElements[$i]["elementName"] . "</label>
+        //     <div>
+        //     <input name='element" . $i . "' type='text' class='hide' value='" . $aAllTaskElements[$i]["elementName"] . "'/>
+        //     </div>
+        //     <label class='updateElement' data-element='" . $aAllTaskElements[$i]["elementId"] . "'>V</label>
+        //     <label class='deleteElement' data-element='" . $aAllTaskElements[$i]["elementId"] . "'>X</label>
+        // </li>";
     }
 
     return $sTaskElementsList;

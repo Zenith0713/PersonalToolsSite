@@ -22,7 +22,12 @@ class TaskElement
 
         $this->_moDatabase->request($sSql, [$paValue[0], $paValue[1]], false);
 
-        $aElement = $this->selectValue($paValue);
+        $sSql = "
+            SELECT LAST_INSERT_ID() 
+            FROM taskelements
+        ";
+
+        $aElement = $this->_moDatabase->request($sSql);
 
         return $aElement;
     }
@@ -42,17 +47,17 @@ class TaskElement
     }
 
     // Méthode permettant de séléctionner tous les éléments
-    public function selectValue(array $paValue): array
+    public function update(array $paValue): bool
     {
         $sSql = "
-            SELECT elementId, elementName, elementTask
-            FROM taskelements
-            WHERE elementName = ? AND elementTask = ?
+            UPDATE taskelements
+            SET elementName = ?
+            WHERE elementId = ?
         ";
 
-        $aElement = $this->_moDatabase->request($sSql, [$paValue[0], $paValue[1]]);
+        $this->_moDatabase->request($sSql, [$paValue[0], $paValue[1]], false);
 
-        return $aElement;
+        return false;
     }
 
     // Méthode permettant de supprimer un élémént d'une tâche
