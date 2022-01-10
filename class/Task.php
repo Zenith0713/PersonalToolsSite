@@ -1,6 +1,7 @@
 <?php
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
+// require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Database.php");
 
 // Classe permettant 
 class Task
@@ -25,7 +26,7 @@ class Task
         }
 
         $sSql = "
-            INSERT INTO task (taskName, taskCategory)
+            INSERT INTO tasks (taskName, taskCategory)
             VALUES(?, 1)
         ";
 
@@ -34,24 +35,12 @@ class Task
         return false;
     }
 
-    // Méthode permettant de modifier une tâche
-    public function update(array $paValues)
-    {
-        $sSql = "
-            UPDATE task
-            SET taskCategory = ?
-            WHERE taskName = ?
-        ";
-
-        $this->_moDatabase->request($sSql, [$paValues[0], $paValues[1]], false);
-    }
-
     // Méthode permettant de séléctionner toutes les tâches
     public function selectAll(): array
     {
         $sSql = "
             SELECT taskName, taskCategory
-            FROM task
+            FROM tasks
             ORDER BY creationDate DESC
         ";
 
@@ -60,11 +49,18 @@ class Task
         return $aAllTask;
     }
 
-    // Méthode permettant de supprimer une tâche
+    // Méthode permettant de supprimer une tâche ainsi que tous les éléments la concernant
     public function delete(String $psKey)
     {
         $sSql = "
-            DELETE FROM task
+            DELETE FROM taskElements
+            WHERE elementTask = ?
+        ";
+
+        $this->_moDatabase->request($sSql, [$psKey], false);
+
+        $sSql = "
+            DELETE FROM tasks
             WHERE taskName = ?
         ";
 
