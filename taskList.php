@@ -21,39 +21,33 @@ include("app/showAllTasks.php");
     <!-- Rendu dynamique -->
     <!-- Design simple et intuitif -->
 
+    <button>Gestion des catégories</button>
+
     <section>
         <!-- Choisir nom du groupe et catégories -->
-        <h2>Gestion</h2>
+        <h2>Ajouter une tâche</h2>
 
-        <article>
+        <!-- <article>
             <h4>Recherche</h4>
-            <!-- Fonction de trie par catégories, recherches de nom de tâches, etc... -->
-        </article>
+            <p>Fonction de trie par catégories, recherches de nom de tâches, etc...</p>
+        </article> -->
 
-        <article>
-            <h4>Catégories</h4>
-            <!-- Gérer les catégories (ajouter, supprimer, modifier)... -->
-        </article>
+        <form name="addTask">
+            <div>
+                <div id="emptyError" class="hide inputError">Veuillez remplir le champ</div>
+                <div id="alreadyTakeError" class="hide inputError">Ce nom est déjà utilisé !</div>
+                <label for="newTask">Nom de la tâche :</label>
+                <input id="newTask" name="newTask" type="text" placeholder="Nouvelle tâche" />
+            </div>
 
-        <article>
-            <h4>Tâche</h4>
+            <button type="submit">Ajouter</button>
+        </form>
 
-            <form name="addTask">
-                <div>
-                    <div id="emptyError" class="hide inputError">Veuillez remplir le champ</div>
-                    <div id="alreadyTakeError" class="hide inputError">Ce nom est déjà utilisé !</div>
-                    <label for="newTask">Nom de la tâche :</label>
-                    <input id="newTask" name="newTask" type="text" placeholder="Nouvelle tâche" />
-                </div>
-
-                <button type="submit">Ajouter une tâche</button>
-            </form>
-        </article>
     </section>
 
     <!-- Ici on peut retrouver toutes les tâches -->
     <section>
-        <h2>Tâches</h2>
+        <h2>Liste des tâches</h2>
         <!-- Un groupe de tâche -->
         <div>
             <?php echo $sAllTasksArticles ?>

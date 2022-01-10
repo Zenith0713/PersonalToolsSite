@@ -5,7 +5,7 @@
 const addTaskForm = document.querySelector("form[name='addTask']");
 const taskNameInput = addTaskForm.querySelector("input");
 const taskNameEmptyError = document.getElementById("emptyError");
-const taskNamealreadyTakeError = document.getElementById("alreadyTakeError");
+const taskNameAlreadyTakeError = document.getElementById("alreadyTakeError");
 const taskSection = document.querySelector("main section:nth-of-type(2) div");
 const taskSelectCategory = taskSection.querySelectorAll("article select");
 
@@ -24,7 +24,7 @@ function setAllEventListener() {
   });
 
   addTaskForm.addEventListener("keyup", () => {
-    taskNamealreadyTakeError.classList.add("hide");
+    taskNameAlreadyTakeError.classList.add("hide");
     taskNameEmptyError.classList.add("hide");
   });
 
@@ -99,7 +99,7 @@ function addTask() {
     .then((response) => response.json())
     .then((data) => {
       if (data !== "") {
-        taskNamealreadyTakeError.classList.remove("hide");
+        taskNameAlreadyTakeError.classList.remove("hide");
       } else {
         showNewTask(taskNameInput.value);
         taskNameInput.value = "";
@@ -293,7 +293,7 @@ function setInputChangeOnElementTask(tasksArticle, elementId) {
   elementForm.classList.remove("hide");
 }
 
-// Fonction permettant de supprimer l'élement d'une tâche
+// Fonction permettant de modifier l'élement d'une tâche
 function updateElementTask(tasksArticle, elementValue, elementId) {
   const elementTaskButtons = tasksArticle.querySelectorAll(".updateElement");
   let formData = new FormData();

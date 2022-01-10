@@ -78,15 +78,16 @@ class TaskListManagement
             case "selectAll":
                 $this->_mAjax = $this->_moTaskCategory->selectAll();
                 break;
-                //     case "add":
-                //         $this->_moTask->addTask();
-                //         break;
-                //     case "update":
-                //         $this->_moTask->addTask();
-                //         break;
-                //     case "remove":
-                //         $this->_moTask->addTask();
-                //         break;
+            case "add":
+                $aCategory = $this->_moTaskCategory->insert([$this->_maPost["categoryName"]]);
+                $this->_mAjax = $aCategory;
+                break;
+            case "update":
+                $this->_moTaskCategory->update([]);
+                break;
+            case "remove":
+                $this->_moTaskCategory->delete($this->_maPost["categoryId"]);
+                break;
         }
     }
 

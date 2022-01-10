@@ -46,7 +46,7 @@ class TaskElement
         return $aAllTaskElements;
     }
 
-    // Méthode permettant de séléctionner tous les éléments
+    // Méthode permettant de modifier un élément
     public function update(array $paValue): bool
     {
         $sSql = "
