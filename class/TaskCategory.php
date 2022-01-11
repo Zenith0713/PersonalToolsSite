@@ -72,6 +72,17 @@ class TaskCategory
     // Méthode permettant de supprimer une catégorie
     public function delete(String $psKey)
     {
+        // SELECT taskName, taskCategory
+        // FROM tasks
+        // WHERE taskCategory = ?
+        $sSql = "
+            UPDATE tasks
+            SET taskCategory = 1
+            WHERE taskCategory = ?
+        ";
+
+        $this->_moDatabase->request($sSql, [$psKey], false);
+
         $sSql = "
             DELETE FROM taskCategories
             WHERE categoryId = ?

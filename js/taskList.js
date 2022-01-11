@@ -182,6 +182,9 @@ function changeTaskCategory(tasksArticle, selectCategory) {
   const selectValue = selectCategory.value;
   let formData = new FormData();
 
+  console.log(taskName);
+  console.log(selectValue);
+
   formData.append("action", "update");
   formData.append("element", "task");
   formData.append("taskName", taskName);

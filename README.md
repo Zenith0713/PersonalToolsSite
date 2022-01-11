@@ -5,4 +5,7 @@
 - ARGENT: Gestion des virements, données des factures (éléct, fortfait internet, etc...)
 - TEST : test, nouvelles choses que je veux faire
 - AUTRES : tout le reste
-(peut etre se servir d'autres api, fonctionnalitées non communes)
+  (peut etre se servir d'autres api, fonctionnalitées non communes)
+
+Faire en sorte qu'il reste obligatoirement la tâche avec l'id 1, créé par défaut.
+Vérifier l'ajout d'une catégorie sur une nouvelle tâche

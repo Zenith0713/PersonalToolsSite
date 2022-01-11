@@ -21,7 +21,7 @@ include("app/showAllTasks.php");
     <!-- Rendu dynamique -->
     <!-- Design simple et intuitif -->
 
-    <button>Gestion des catégories</button>
+    <a href="categoriesManagement.php">Gestion des catégories</a>
 
     <section>
         <!-- Choisir nom du groupe et catégories -->

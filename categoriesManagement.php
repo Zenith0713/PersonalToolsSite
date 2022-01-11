@@ -9,6 +9,8 @@ include("app/showAllCategories.php");
 <main id="categoriesManagement">
     <!-- Ajouter / supprimer / modifier -->
 
+    <a href="tasklist.php">Liste de tâches</a>
+
     <article>
         <h2>Ajouter un catégorie</h2>
 
