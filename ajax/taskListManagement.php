@@ -89,7 +89,7 @@ class TaskListManagement
                 $this->_moTaskCategory->update([$this->_maPost["categoryName"], $this->_maPost["categoryId"]]);
                 break;
             case "remove":
-                $this->_moTaskCategory->delete($this->_maPost["categoryId"]);
+                $this->_mAjax = $this->_moTaskCategory->delete($this->_maPost["categoryId"]);
                 break;
         }
     }

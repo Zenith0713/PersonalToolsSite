@@ -12,6 +12,20 @@ class TaskCategory
         $this->_moDatabase = new Database();
     }
 
+    public function createFirstCategory(): array
+    {
+        $firstCategoryName = "Autres";
+
+        $sSql = "
+            INSERT INTO taskCategories (categoryId, categoryName)
+            VALUES(1, ?)
+        ";
+
+        $this->_moDatabase->request($sSql, [$firstCategoryName], false);
+
+        return [0 => ["categoryId" => 1, "categoryName" => $firstCategoryName]];
+    }
+
     // Méthode permettant d'ajouter une catégorie si le nom de cette catégorie n'existe pas déjà
     public function insert(array $paValue): array
     {
@@ -41,7 +55,8 @@ class TaskCategory
         return $aCategory;
     }
 
-    // Méthode permettant de séléctionner toutes les catégories
+    // Méthode permettant de séléctionner toutes les catégories et si il n'y a aucune catégorie, lance la fonction
+    // pour en créer une
     public function selectAll(): array
     {
         $sSql = "
@@ -51,6 +66,10 @@ class TaskCategory
         ";
 
         $aAllCategory = $this->_moDatabase->request($sSql);
+
+        if (empty($aAllCategory)) {
+            return $this->createFirstCategory();
+        }
 
         return $aAllCategory;
     }
@@ -70,11 +89,12 @@ class TaskCategory
     }
 
     // Méthode permettant de supprimer une catégorie
-    public function delete(String $psKey)
+    public function delete(String $psKey): string
     {
-        // SELECT taskName, taskCategory
-        // FROM tasks
-        // WHERE taskCategory = ?
+        if ($psKey === "1") {
+            return "Error";
+        }
+
         $sSql = "
             UPDATE tasks
             SET taskCategory = 1
@@ -89,5 +109,7 @@ class TaskCategory
         ";
 
         $this->_moDatabase->request($sSql, [$psKey], false);
+
+        return "";
     }
 }

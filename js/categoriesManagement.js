@@ -8,6 +8,7 @@ const categoryNameEmptyError = document.getElementById("emptyError");
 const categoryNameAlreadyTakeError =
   document.getElementById("alreadyTakeError");
 const categoryList = document.querySelector("main ul");
+const deleteErrorMessage = document.querySelector("main > .errorMessage");
 
 // Fonction permettant de définir tous les événements de la page
 function setAllEventListener() {
@@ -24,6 +25,7 @@ function setAllEventListener() {
   });
 
   addCategoryForm.addEventListener("keyup", () => {
+    deleteErrorMessage.classList.add("hide");
     categoryNameAlreadyTakeError.classList.add("hide");
     categoryNameEmptyError.classList.add("hide");
   });
@@ -52,7 +54,7 @@ function addCategory() {
       if (data[0] === true) {
         categoryNameAlreadyTakeError.classList.remove("hide");
       } else {
-        showNewTask(data[0]["LAST_INSERT_ID()"], categoryNameInput.value);
+        showNewCategory(data[0]["LAST_INSERT_ID()"], categoryNameInput.value);
         categoryNameInput.value = "";
       }
     })
@@ -62,7 +64,7 @@ function addCategory() {
 }
 
 // Fonction permettant d'afficher la nouvelle catégorie qui a été ajouté
-function showNewTask(categoryId, categoryName) {
+function showNewCategory(categoryId, categoryName) {
   const li = document.createElement("li");
   const category = `<p>${categoryName}</p><form class='hide'><input value='${categoryName}'/></form>`;
   const buttons =
@@ -88,8 +90,15 @@ function deleteCategory(categoryLi, categoryId) {
     method: "POST",
     body: formData,
   })
-    .then((response) => {
-      categoryLi.classList.add("hide");
+    .then((response) => response.json())
+    .then((data) => {
+      // Afficher un message d'erreur qui se cache lors d'une action sur une tâche
+      console.log(data);
+      if (data === "Error") {
+        deleteErrorMessage.classList.remove("hide");
+      } else {
+        categoryLi.classList.add("hide");
+      }
     })
     .catch((error) => {
       return console.error(error);
@@ -130,11 +139,13 @@ function setCategoriesEventListener(categoryLi) {
 
   categoryDeleteButton.addEventListener("click", function () {
     console.log("Delete category !");
+    deleteErrorMessage.classList.add("hide");
     deleteCategory(categoryLi, categoryId);
   });
 
   categoryUpdateButton.addEventListener("click", function () {
     console.log("Set category !");
+    deleteErrorMessage.classList.add("hide");
     formCategory.classList.remove("hide");
     pCategory.classList.add("hide");
   });
@@ -142,7 +153,6 @@ function setCategoriesEventListener(categoryLi) {
   formCategory.addEventListener("submit", function (event) {
     event.preventDefault();
     console.log("Update category !");
-
     updateCategory(formCategory, pCategory, categoryId);
   });
 }

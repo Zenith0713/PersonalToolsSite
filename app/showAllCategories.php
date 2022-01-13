@@ -5,9 +5,9 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.ph
 // Fonction permettant
 function showAllCategories(): string
 {
-    $oCategory = new Category();
+    $oTaskCategory = new TaskCategory();
 
-    $aAllCategories = $oCategory->selectAll();
+    $aAllCategories = $oTaskCategory->selectAll();
 
     $sAllCategoriesLi = "";
     $sSpans = "<span class='updateCategory'> V</span><span class='deleteCategory'> X</span>";

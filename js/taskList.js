@@ -163,9 +163,16 @@ function setTaskCategoriesOptions() {
       .then((response) => response.json())
       .then((data) => {
         let options = "";
+        let selected;
 
         for (let i = 0; i < data.length; i++) {
-          options += `<option value='${data[i]["categoryId"]}'>${data[i]["categoryName"]}</option>`;
+          selected = "";
+
+          if (data[i]["categoryId"] === "1") {
+            selected = "selected";
+          }
+
+          options += `<option value='${data[i]["categoryId"]}' ${selected}>${data[i]["categoryName"]}</option>`;
         }
 
         resolve(options);

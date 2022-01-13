@@ -11,6 +11,7 @@ class Task
     public function __construct()
     {
         $this->_moDatabase = new Database();
+        $this->_moTaskCategory = new TaskCategory();
     }
 
     // Méthode permettant d'ajouter une tâche si le nom de cette tâche n'existe pas déjà
@@ -24,6 +25,9 @@ class Task
                 return true;
             }
         }
+
+        // Permets de créer une tâche s'il n'en a aucune, sinon les sélectionne toutes
+        $this->_moTaskCategory->selectAll();
 
         $sSql = "
             INSERT INTO tasks (taskName, taskCategory)
