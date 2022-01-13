@@ -7,4 +7,5 @@
 - AUTRES : tout le reste
   (peut etre se servir d'autres api, fonctionnalitées non communes)
 
+Afficher un message lorsqu'il n'y a rien dans la liste (de tâche et/ou de catégorie)
 DESIGN
