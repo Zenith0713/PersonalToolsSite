@@ -49,7 +49,9 @@ include("app/showAllTasks.php");
     <section>
         <h2>Liste des tâches</h2>
         <!-- Un groupe de tâche -->
+
         <div>
+            <h3 class="noTaskMessage hide">Aucune tâche</h3>
             <?php echo $sAllTasksArticles ?>
 
             <!-- <article>

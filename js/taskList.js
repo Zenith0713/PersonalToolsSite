@@ -7,6 +7,7 @@ const taskNameInput = addTaskForm.querySelector("input");
 const taskNameEmptyError = document.getElementById("emptyError");
 const taskNameAlreadyTakeError = document.getElementById("alreadyTakeError");
 const taskSection = document.querySelector("main section:nth-of-type(2) div");
+const noTaskMessage = taskSection.querySelector(".noTaskMessage");
 const taskSelectCategory = taskSection.querySelectorAll("article select");
 
 // Fonction permettant de définir tous les événements de la page
@@ -101,6 +102,7 @@ function addTask() {
       if (data !== "") {
         taskNameAlreadyTakeError.classList.remove("hide");
       } else {
+        noTaskMessage.classList.add("hide");
         showNewTask(taskNameInput.value);
         taskNameInput.value = "";
       }
@@ -125,7 +127,9 @@ function deleteTask(tasksArticle) {
     body: formData,
   })
     .then((response) => {
+      const deleteTask = true;
       tasksArticle.classList.add("hide");
+      verifyTaskListContent(deleteTask);
     })
     .catch((error) => {
       return console.error(error);
@@ -149,7 +153,7 @@ async function showNewTask(taskName) {
   setTasksEventListener(article);
 }
 
-// Fonction permettant
+//
 function setTaskCategoriesOptions() {
   let formData = new FormData();
 
@@ -363,8 +367,25 @@ function setElementTaskEventListener(li, tasksArticle) {
   });
 }
 
+//
+function verifyTaskListContent(deleteTask = false) {
+  const allTasks = taskSection.querySelectorAll("article");
+  const allTasksHide = taskSection.querySelectorAll("article.hide");
+
+  if (
+    allTasks.length === 0 ||
+    (allTasks.length === allTasksHide.length && deleteTask)
+  ) {
+    noTaskMessage.classList.remove("hide");
+  } else {
+    noTaskMessage.classList.add("hide");
+  }
+}
+
+// ATTENTION AJOUTER LA FONCTION verifyTaskListContent()
 // Initialisation de la fonction setAllEventListener et ajout de l'eventListener qui permet de lancer la fonction lorsque toute
 // la page est bien chargée
 window.addEventListener("DOMContentLoaded", function () {
+  verifyTaskListContent();
   setAllEventListener();
 });
