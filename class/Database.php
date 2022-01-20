@@ -1,6 +1,7 @@
 <?php
 
-// Classe permettant 
+// Classe permettant de définir plusieurs méthodes pour la connexion à la base
+// de données et pour faire des requêtes
 class Database
 {
     private String $_msServerName;
@@ -21,44 +22,34 @@ class Database
         $this->connectionToDatabase();
     }
 
-    // Méthode permettant de se connecter à la base de donnée et d'envoyer une erreur si la connexion échoue
+    // Méthode permettant de se connecter à la base de données
     private function connectionToDatabase()
     {
         $sDsn = "mysql:host=" . $this->_msServerName . ";port=" . $this->_miPort . ";dbname=" . $this->_msDatabaseName;
 
-        try {
-            $this->_moPdo = new PDO(
-                $sDsn,
-                $this->_msUsername,
-                $this->_msPassword,
-                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-            );
-        } catch (PDOException $e) {
-            // Faire quelques choses d'autres de ce message
-            var_dump($e->getMessage());
-        }
+        $this->_moPdo = new PDO(
+            $sDsn,
+            $this->_msUsername,
+            $this->_msPassword,
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+        );
     }
 
-    // Méthode permettant 
+    // Méthode permettant d'envoyer une requête à la base de données 
     public function request(String $psSql, array $paArguments = [], Bool $pbReturn = true): array
     {
-        try {
-            $aArguments = $this->setUt8Arguments($paArguments);
+        $aArguments = $this->setUt8Arguments($paArguments);
 
-            $oRequestPrepare = $this->_moPdo->prepare($psSql);
-            $oRequestPrepare->execute($aArguments);
-            $aDataRequest = [];
+        $oRequestPrepare = $this->_moPdo->prepare($psSql);
+        $oRequestPrepare->execute($aArguments);
+        $aDataRequest = [];
 
-            if ($pbReturn) {
-                $aDataRequest = $oRequestPrepare->fetchAll(PDO::FETCH_ASSOC);
-                $aDataRequest = $this->contentFilter($aDataRequest);
-            }
-
-            return $aDataRequest;
-        } catch (Exception $e) {
-            // Faire quelques chsoes d'autres de ce message
-            var_dump($e->getMessage());
+        if ($pbReturn) {
+            $aDataRequest = $oRequestPrepare->fetchAll(PDO::FETCH_ASSOC);
+            $aDataRequest = $this->contentFilter($aDataRequest);
         }
+
+        return $aDataRequest;
     }
 
     // Méthode permettant de convertir chaque argument d'un jeu de caractères (UTF-8) à un autre (CP1252)
@@ -82,16 +73,13 @@ class Database
     // soient corrects
     private function contentFilter(array $paContent): array
     {
-
         $aRequest = [];
 
         foreach ($paContent as $key => $value) {
             $aRequest[$key] = $value;
 
             foreach ($aRequest[$key] as $key2 => $value2) {
-
                 $newValue = htmlentities($value2, ENT_COMPAT, 'ISO-8859-1', true);
-
 
                 $aRequest[$key][$key2] = mb_convert_encoding($newValue, "UTF-8", "Windows-1252");
             }

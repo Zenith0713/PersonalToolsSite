@@ -3,7 +3,8 @@
 require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
 // require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Database.php");
 
-// Classe permettant 
+// Classe permettant de définir plusieurs méthodes utilitaires sur les tâches
+// comme ajouter, modifier ou supprimer une tâche
 class Task
 {
     private Database $_moDatabase;
@@ -26,7 +27,7 @@ class Task
             }
         }
 
-        // Permets de créer une tâche s'il n'en a aucune, sinon les sélectionne toutes
+        // Permets de créer une catégorie s'il n'en a aucune, sinon les sélectionne toutes
         $this->_moTaskCategory->selectAll();
 
         $sSql = "

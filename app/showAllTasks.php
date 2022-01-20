@@ -2,7 +2,8 @@
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
 
-// Fonction permettant
+// Fonction permettant d'afficher toutes les tâches avec la selection de catégories,
+// leurs éléments, etc...
 function showAllTasks(): string
 {
     $oTask = new Task();
@@ -12,20 +13,20 @@ function showAllTasks(): string
     $sAllTasksArticles = "";
 
     for ($i = 0; $i < count($aAllTasks); $i++) {
-        $sOptions = setOptions($aAllTasks[$i]["taskCategory"]);
-        $sElementsList = setElements($aAllTasks[$i]["taskName"]);
+        $sCategoriesOptions = setsCategoriesOptions($aAllTasks[$i]["taskCategory"]);
+        $sElementsList = setElements(html_entity_decode($aAllTasks[$i]["taskName"]));
 
         $sAllTasksArticles .= "<article>
-            <h4>" . $aAllTasks[$i]["taskName"] . "</h4>
-            <span class='deleteButton'>X</span>
+            <div><h4>" . $aAllTasks[$i]["taskName"] . "</h4>
+            <span class='deleteButton'><i class='fas fa-trash'></i></span></div>
             <div>
-                <label>Catégories</label>
-                <select>" . $sOptions  . "</select>
+                <label>Catégories :</label>
+                <select>" . $sCategoriesOptions  . "</select>
             </div>
             <ul>" . $sElementsList . "</ul>
             <div>
-                <input name='addElementTask' type='text' />
-                <button class='addElementButton' type='button'>Ajouter un élément</button>
+                <input name='addElementTask' type='text' placeholder='Nouvel élément' />
+                <button class='addElementButton' type='button'>Ajouter</button>
             </div>
         </article>";
     }
@@ -33,8 +34,8 @@ function showAllTasks(): string
     return $sAllTasksArticles;
 }
 
-// Fonction permettant
-function setOptions(Int $piTaskCategory): string
+// Fonction retournant les différents catégories dans des balises "<option>"
+function setsCategoriesOptions(Int $piTaskCategory): string
 {
     $oTaskCategory = new TaskCategory();
     $aAllTaskCategories = $oTaskCategory->selectAll();
@@ -54,7 +55,7 @@ function setOptions(Int $piTaskCategory): string
     return $sOptions;
 }
 
-// Fonction permettant
+// Fonction retournant les différents éléments d'une catégorie spécifique
 function setElements(String $psTaskName): string
 {
     $oTaskElement = new TaskElement();
@@ -64,13 +65,12 @@ function setElements(String $psTaskName): string
 
     for ($i = 0; $i < count($aAllTaskElements); $i++) {
         $sTaskElementsList .= "<li>
-            <input name='taskCompleted' type='checkbox' value='1'/>
-            <label>" . $aAllTaskElements[$i]["elementName"] . "</label>
+            <p>" . $aAllTaskElements[$i]["elementName"] . "</p>
             <form class='hide'>
                 <input name='" . $aAllTaskElements[$i]["elementId"] . "' type='text' value='" . $aAllTaskElements[$i]["elementName"] . "'/>
             </form>
-            <span class='updateElement' data-element='" . $aAllTaskElements[$i]["elementId"] . "'>V</span>
-            <span class='deleteElement' data-element='" . $aAllTaskElements[$i]["elementId"] . "'>X</span>
+            <span class='updateElement' data-element='" . $aAllTaskElements[$i]["elementId"] . "'><i class='fas fa-edit'></i></span>
+            <span class='deleteElement' data-element='" . $aAllTaskElements[$i]["elementId"] . "'><i class='fas fa-trash'></i></span>
         </li>";
     }
 

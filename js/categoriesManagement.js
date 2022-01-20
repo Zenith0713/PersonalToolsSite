@@ -8,6 +8,7 @@ const categoryNameEmptyError = document.getElementById("emptyError");
 const categoryNameAlreadyTakeError =
   document.getElementById("alreadyTakeError");
 const categoryList = document.querySelector("main ul");
+const addErrorMessage = document.querySelector("main > .errorMessage");
 const deleteErrorMessage = document.querySelector("main > .errorMessage");
 
 // Fonction permettant de définir tous les événements de la page
@@ -37,8 +38,6 @@ function setAllEventListener() {
 
 // Fonction permettant d'ajouter une nouvelle catégorie dans la base de données
 function addCategory() {
-  console.log("Ajouter une catégorie");
-
   let formData = new FormData();
   formData.append("action", "add");
   formData.append("element", "taskCategory");
@@ -50,8 +49,7 @@ function addCategory() {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-      if (data[0] === true) {
+      if (data[0]) {
         categoryNameAlreadyTakeError.classList.remove("hide");
       } else {
         showNewCategory(data[0]["LAST_INSERT_ID()"], categoryNameInput.value);
@@ -66,12 +64,15 @@ function addCategory() {
 // Fonction permettant d'afficher la nouvelle catégorie qui a été ajouté
 function showNewCategory(categoryId, categoryName) {
   const li = document.createElement("li");
-  const category = `<p>${categoryName}</p><form class='hide'><input value='${categoryName}'/></form>`;
+  const p = document.createElement("p");
+  const category = `<form class='hide'><input value='${categoryName}' type='text' /></form>`;
   const buttons =
-    "<span class='updateCategory'> V</span><span class='deleteCategory'> X</span>";
+    "<span class='updateCategory'><i class='fas fa-edit'></i></span><span class='deleteCategory'><i class='fas fa-trash'></i></span>";
 
+  p.textContent = categoryName;
+  li.append(p);
   li.setAttribute("data-categoryId", categoryId);
-  li.innerHTML = category + buttons;
+  li.innerHTML += category + buttons;
 
   categoryList.prepend(li);
   setCategoriesEventListener(li);
@@ -79,7 +80,6 @@ function showNewCategory(categoryId, categoryName) {
 
 // Fonction permettant de supprimer une catégorie
 function deleteCategory(categoryLi, categoryId) {
-  console.log("Supprimer une catégorie");
   let formData = new FormData();
 
   formData.append("action", "remove");
@@ -92,8 +92,6 @@ function deleteCategory(categoryLi, categoryId) {
   })
     .then((response) => response.json())
     .then((data) => {
-      // Afficher un message d'erreur qui se cache lors d'une action sur une tâche
-      console.log(data);
       if (data === "Error") {
         deleteErrorMessage.classList.remove("hide");
       } else {
@@ -138,13 +136,11 @@ function setCategoriesEventListener(categoryLi) {
   const pCategory = categoryLi.querySelector("p");
 
   categoryDeleteButton.addEventListener("click", function () {
-    console.log("Delete category !");
     deleteErrorMessage.classList.add("hide");
     deleteCategory(categoryLi, categoryId);
   });
 
   categoryUpdateButton.addEventListener("click", function () {
-    console.log("Set category !");
     deleteErrorMessage.classList.add("hide");
     formCategory.classList.remove("hide");
     pCategory.classList.add("hide");
@@ -152,7 +148,6 @@ function setCategoriesEventListener(categoryLi) {
 
   formCategory.addEventListener("submit", function (event) {
     event.preventDefault();
-    console.log("Update category !");
     updateCategory(formCategory, pCategory, categoryId);
   });
 }
@@ -160,5 +155,7 @@ function setCategoriesEventListener(categoryLi) {
 // Initialisation de la fonction setAllEventListener et ajout de l'eventListener qui permet de lancer la fonction lorsque toute
 // la page est bien chargée
 window.addEventListener("DOMContentLoaded", function () {
+  // Changement du titre de la page
+  document.title = "Gestion des catégories";
   setAllEventListener();
 });

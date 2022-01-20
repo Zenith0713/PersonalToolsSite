@@ -12,7 +12,7 @@ class TaskListManagement
     private String $_msAction;
     private $_mAjax;
 
-    public function __construct(array $paPost, array $paGet)
+    public function __construct(array $paPost)
     {
         $this->_moTask = new Task();
         $this->_moTaskCategory = new TaskCategory();
@@ -42,11 +42,7 @@ class TaskListManagement
         switch ($this->_msAction) {
             case "add":
                 $bError = $this->_moTask->insert([$this->_maPost["taskName"]]);
-
-                if ($bError) {
-                    $this->_mAjax = "Ce nom de tâche est déjà pris";
-                }
-
+                $this->_mAjax = $bError;
                 break;
             case "update":
                 $this->_moTask->update([$this->_maPost["taskCategory"], $this->_maPost["taskName"]]);
@@ -94,7 +90,7 @@ class TaskListManagement
         }
     }
 
-    // Méthode permettant d'envoyé le contenu de la variable "pmData" au fichier javascript
+    // Méthode permettant d'envoyé le contenu de la variable "pData" au fichier javascript
     private function sendDataToJs($pData)
     {
         header('Content-Type: application/json');
@@ -102,8 +98,4 @@ class TaskListManagement
     }
 }
 
-try {
-    $oTaskListManagement = new TaskListManagement($_POST, $_GET);
-} catch (Exception $e) {
-    var_dump($e->getMessage());
-}
+$oTaskListManagement = new TaskListManagement($_POST);

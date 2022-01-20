@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 12 nov. 2021 à 13:44
+-- Généré le : jeu. 20 jan. 2022 à 14:07
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.4.9
 
@@ -24,29 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `task`
---
-
-DROP TABLE IF EXISTS `task`;
-CREATE TABLE IF NOT EXISTS `task` (
-  `taskName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `taskCategory` int(11) NOT NULL,
-  `creationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`taskName`),
-  KEY `cateogryId` (`taskCategory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `task`
---
-
-INSERT INTO `task` (`taskName`, `taskCategory`, `creationDate`) VALUES
-('Formation', 3, '2021-11-12 09:08:30'),
-('Ménage', 2, '2021-11-12 09:09:25');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `taskcategories`
 --
 
@@ -55,17 +32,7 @@ CREATE TABLE IF NOT EXISTS `taskcategories` (
   `categoryId` int(11) NOT NULL AUTO_INCREMENT,
   `categoryName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`categoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `taskcategories`
---
-
-INSERT INTO `taskcategories` (`categoryId`, `categoryName`) VALUES
-(1, 'Autres'),
-(2, 'Appartement'),
-(3, 'Boulot'),
-(4, 'Formation');
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -80,23 +47,51 @@ CREATE TABLE IF NOT EXISTS `taskelements` (
   `elementTask` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`elementId`),
   KEY `elementTask` (`elementTask`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `tasks`
+--
+
+DROP TABLE IF EXISTS `tasks`;
+CREATE TABLE IF NOT EXISTS `tasks` (
+  `taskName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `taskCategory` int(11) NOT NULL,
+  `creationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`taskName`),
+  KEY `cateogryId` (`taskCategory`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Contraintes pour les tables déchargées
 --
 
 --
--- Contraintes pour la table `task`
---
-ALTER TABLE `task`
-  ADD CONSTRAINT `task_ibfk_1` FOREIGN KEY (`taskCategory`) REFERENCES `taskcategories` (`categoryId`);
-
---
 -- Contraintes pour la table `taskelements`
 --
 ALTER TABLE `taskelements`
-  ADD CONSTRAINT `taskelements_ibfk_1` FOREIGN KEY (`elementTask`) REFERENCES `task` (`taskName`);
+  ADD CONSTRAINT `taskelements_ibfk_1` FOREIGN KEY (`elementTask`) REFERENCES `tasks` (`taskName`);
+
+--
+-- Contraintes pour la table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`taskCategory`) REFERENCES `taskcategories` (`categoryId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

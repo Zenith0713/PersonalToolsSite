@@ -2,7 +2,8 @@
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
 
-// Classe permettant 
+// Classe permettant de définir plusieurs méthodes utilitaires sur les catégories
+// comme ajouter, modifier ou supprimer une catégorie
 class TaskCategory
 {
     private Database $_moDatabase;
@@ -12,18 +13,19 @@ class TaskCategory
         $this->_moDatabase = new Database();
     }
 
+    // Fonction permettant de créer une catégorie si il n'y a pas d'autre catégorie qui existe
     public function createFirstCategory(): array
     {
-        $firstCategoryName = "Autres";
+        $sFirstCategoryName = "Autres";
 
         $sSql = "
             INSERT INTO taskCategories (categoryId, categoryName)
             VALUES(1, ?)
         ";
 
-        $this->_moDatabase->request($sSql, [$firstCategoryName], false);
+        $this->_moDatabase->request($sSql, [$sFirstCategoryName], false);
 
-        return [0 => ["categoryId" => 1, "categoryName" => $firstCategoryName]];
+        return [0 => ["categoryId" => 1, "categoryName" => $sFirstCategoryName]];
     }
 
     // Méthode permettant d'ajouter une catégorie si le nom de cette catégorie n'existe pas déjà

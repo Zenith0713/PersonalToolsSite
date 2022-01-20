@@ -2,7 +2,8 @@
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/PersonalToolsSite/class/Autoloader.php");
 
-// Classe permettant 
+// Classe permettant de définir plusieurs méthodes utilitaires sur les éléments de tâches
+// comme ajouter, modifier ou supprimer un éléments d'une tâche
 class TaskElement
 {
     private Database $_moDatabase;
@@ -12,7 +13,8 @@ class TaskElement
         $this->_moDatabase = new Database();
     }
 
-    // Méthode permettant
+    // Méthode permettant de créer un nouvel élément dans une tâche spécifique et de retourner
+    // son ID
     public function insert(array $paValue): array
     {
         $sSql = "
@@ -60,7 +62,7 @@ class TaskElement
         return false;
     }
 
-    // Méthode permettant de supprimer un élémént d'une tâche
+    // Méthode permettant de supprimer un élément d'une tâche
     public function delete(String $psKey)
     {
         $sSql = "

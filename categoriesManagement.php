@@ -5,18 +5,13 @@ include("app/showAllCategories.php");
 
 ?>
 
-
 <main id="categoriesManagement">
-    <!-- Ajouter / supprimer / modifier -->
-
     <div class="errorMessage hide">
         <p>Erreur, il est impossible de supprimer la première catégorie.</p>
     </div>
     <a href="tasklist.php">Liste de tâches</a>
 
     <article>
-        <h2>Ajouter un catégorie</h2>
-
         <form name="addCategory">
             <div>
                 <div id="emptyError" class="hide inputError">Veuillez remplir le champ</div>
@@ -36,7 +31,6 @@ include("app/showAllCategories.php");
             <?php echo $sAllCategoriesLi ?>
         </ul>
     </article>
-
 </main>
 
 <!-- All Script -->

@@ -1,6 +1,6 @@
 <?php
 
-// Classe permettant
+// Classe permettant de charger le fichier requis lors de la définition d'une classe
 class Autoloader
 {
     public static function register()
