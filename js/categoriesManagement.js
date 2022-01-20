@@ -49,7 +49,8 @@ function addCategory() {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data[0]) {
+      console.log(data[0]);
+      if (data[0] === true) {
         categoryNameAlreadyTakeError.classList.remove("hide");
       } else {
         showNewCategory(data[0]["LAST_INSERT_ID()"], categoryNameInput.value);

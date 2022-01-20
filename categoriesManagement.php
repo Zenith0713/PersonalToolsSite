@@ -12,6 +12,8 @@ include("app/showAllCategories.php");
     <a href="tasklist.php">Liste de tâches</a>
 
     <article>
+        <h2>Ajouter un catégorie</h2>
+
         <form name="addCategory">
             <div>
                 <div id="emptyError" class="hide inputError">Veuillez remplir le champ</div>
